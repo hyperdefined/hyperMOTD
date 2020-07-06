@@ -1,0 +1,3 @@
+name: DMC-MOTD
+version: ${project.version}
+main: lol.hyper.motd.MOTD

@@ -1,0 +1,5 @@
+type: "random"
+random-motd:
+ - '&6random1'
+ - '&6random2'
+fixed-motd: "fixed test"
