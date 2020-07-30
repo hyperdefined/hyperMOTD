@@ -3,6 +3,8 @@ package lol.hyper.motd;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.ServerPing;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.event.ProxyPingEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -44,19 +46,11 @@ public final class MOTD extends Plugin implements Listener {
     @EventHandler
     public void onPing(ProxyPingEvent e) {
         ServerPing response = e.getResponse();
-        /* NOT TESTED
-        int players = getProxy().getServerInfo("main").getPlayers().size();
-        ServerPing.Players players2 = response.getPlayers();
-        players2.setOnline(players);
-        response.setPlayers(players2);
-        */
         if (type.equalsIgnoreCase("random")) {
             int randomNum = ThreadLocalRandom.current().nextInt(0, motds.size());
-            String motd = ChatColor.translateAlternateColorCodes('&', motds.get(randomNum));
-            response.setDescription(motd);
+            response.setDescriptionComponent(new TextComponent(ChatColor.translateAlternateColorCodes('&', motds.get(randomNum))));
         } else if (type.equalsIgnoreCase("fixed")) {
-            String motd = ChatColor.translateAlternateColorCodes('&', fixedMOTD);
-            response.setDescription(motd);
+            response.setDescriptionComponent(new TextComponent(ChatColor.translateAlternateColorCodes('&', fixedMOTD)));
         }
     }
 
