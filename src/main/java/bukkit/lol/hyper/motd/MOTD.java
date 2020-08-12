@@ -12,7 +12,7 @@ import java.io.File;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class MOTD extends JavaPlugin  implements Listener {
+public class MOTD extends JavaPlugin implements Listener {
 
     private static MOTD instance;
     public FileConfiguration config = this.getConfig();
