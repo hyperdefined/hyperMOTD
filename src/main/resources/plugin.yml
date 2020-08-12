@@ -1,0 +1,8 @@
+name: DMC-MOTD
+main: bukkit.lol.hyper.motd.MOTD
+version: LATEST
+author: "hyperdefined"
+commands:
+  motdreload:
+    usage: /motdreload
+    description: Reload the config.
