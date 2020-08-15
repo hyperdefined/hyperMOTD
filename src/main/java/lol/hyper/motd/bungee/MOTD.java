@@ -21,9 +21,8 @@ import java.util.concurrent.ThreadLocalRandom;
 public final class MOTD extends Plugin implements Listener {
 
     private static MOTD instance;
-    List<String> motds = new ArrayList<>();
-    String fixedMOTD;
-    String type;
+    public File configFile = new File("plugins" + File.separator + "DMC-MOTD", "config.yml");
+    public Configuration configuration;
 
     public static MOTD getInstance() {
         return instance;
@@ -32,7 +31,12 @@ public final class MOTD extends Plugin implements Listener {
     @Override
     public void onEnable() {
         instance = this;
-        loadConfig();
+        try {
+            configuration = ConfigurationProvider.getProvider(YamlConfiguration.class).load(configFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+            getProxy().getLogger().severe("Unable to log configuration file!");
+        }
         ProxyServer.getInstance().getPluginManager().registerListener(this, this);
         getProxy().getPluginManager().registerCommand(this, new CommandReload("motdreload"));
     }
@@ -45,23 +49,11 @@ public final class MOTD extends Plugin implements Listener {
     @EventHandler
     public void onPing(ProxyPingEvent e) {
         ServerPing response = e.getResponse();
-        if (type.equalsIgnoreCase("random")) {
-            int randomNum = ThreadLocalRandom.current().nextInt(0, motds.size());
-            response.setDescriptionComponent(new TextComponent(ChatColor.translateAlternateColorCodes('&', motds.get(randomNum))));
-        } else if (type.equalsIgnoreCase("fixed")) {
-            response.setDescriptionComponent(new TextComponent(ChatColor.translateAlternateColorCodes('&', fixedMOTD)));
-        }
-    }
-
-    public void loadConfig() {
-        try {
-            File configFile = new File("plugins" + File.separator + "DMC-MOTD", "config.yml");
-            Configuration configuration = ConfigurationProvider.getProvider(YamlConfiguration.class).load(configFile);
-            type = configuration.getString("type");
-            motds = configuration.getStringList("random-motd");
-            fixedMOTD = configuration.getString("fixed-motd");
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (configuration.getString("type").equalsIgnoreCase("random")) {
+            int randomNum = ThreadLocalRandom.current().nextInt(0, configuration.getList("random-motd").size());
+            response.setDescriptionComponent(new TextComponent(ChatColor.translateAlternateColorCodes('&', configuration.getList("random-motd").get(randomNum).toString())));
+        } else if (configuration.getString("type").equalsIgnoreCase("fixed")) {
+            response.setDescriptionComponent(new TextComponent(ChatColor.translateAlternateColorCodes('&', configuration.getString("fixed-motd"))));
         }
     }
 }
