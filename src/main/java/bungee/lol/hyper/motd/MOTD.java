@@ -55,7 +55,7 @@ public final class MOTD extends Plugin implements Listener {
 
     public void loadConfig() {
         try {
-            File configFile = new File("plugins//MOTD", "config.yml");
+            File configFile = new File("plugins" + File.separator + "DMC-MOTD", "config.yml");
             Configuration configuration = ConfigurationProvider.getProvider(YamlConfiguration.class).load(configFile);
             type = configuration.getString("type");
             motds = configuration.getStringList("random-motd");
