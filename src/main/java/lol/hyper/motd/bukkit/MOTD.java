@@ -43,9 +43,8 @@ public class MOTD extends JavaPlugin implements Listener {
             event.setMotd(ChatColor.translateAlternateColorCodes('&', config.getString("fixed-motd")));
         }
         if (config.getString("type").equalsIgnoreCase("random")) {
-            List<String> list = config.getStringList("random-motd");
-            int randomNum = ThreadLocalRandom.current().nextInt(0, list.size());
-            event.setMotd(ChatColor.translateAlternateColorCodes('&', list.get(randomNum)));
+            int randomNum = ThreadLocalRandom.current().nextInt(0, config.getStringList("random-motd").size());
+            event.setMotd(ChatColor.translateAlternateColorCodes('&', config.getStringList("random-motd").get(randomNum)));
         }
     }
 }
