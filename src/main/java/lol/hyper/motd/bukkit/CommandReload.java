@@ -1,4 +1,4 @@
-package bukkit.lol.hyper.motd;
+package lol.hyper.motd.bukkit;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -6,8 +6,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
-
-import java.io.File;
 
 public class CommandReload implements CommandExecutor {
     @Override

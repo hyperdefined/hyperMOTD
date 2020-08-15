@@ -1,4 +1,4 @@
-package bukkit.lol.hyper.motd;
+package lol.hyper.motd.bukkit;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

@@ -1,4 +1,4 @@
-package bungee.lol.hyper.motd;
+package lol.hyper.motd.bungee;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
