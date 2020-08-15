@@ -50,8 +50,8 @@ public final class MOTD extends Plugin implements Listener {
     public void onPing(ProxyPingEvent e) {
         ServerPing response = e.getResponse();
         if (configuration.getString("type").equalsIgnoreCase("random")) {
-            int randomNum = ThreadLocalRandom.current().nextInt(0, configuration.getList("random-motd").size());
-            response.setDescriptionComponent(new TextComponent(ChatColor.translateAlternateColorCodes('&', configuration.getList("random-motd").get(randomNum).toString())));
+            int randomNum = ThreadLocalRandom.current().nextInt(0, configuration.getStringList("random-motd").size());
+            response.setDescriptionComponent(new TextComponent(ChatColor.translateAlternateColorCodes('&', configuration.getStringList("random-motd").get(randomNum))));
         } else if (configuration.getString("type").equalsIgnoreCase("fixed")) {
             response.setDescriptionComponent(new TextComponent(ChatColor.translateAlternateColorCodes('&', configuration.getString("fixed-motd"))));
         }
