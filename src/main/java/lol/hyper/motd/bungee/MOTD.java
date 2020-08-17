@@ -18,8 +18,8 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.concurrent.ThreadLocalRandom;
 
 public final class MOTD extends Plugin implements Listener {
@@ -30,6 +30,7 @@ public final class MOTD extends Plugin implements Listener {
     public Configuration configuration;
     public boolean useCustomIcon = false;
     public BufferedImage bufferedImage;
+
     public static MOTD getInstance() {
         return instance;
     }
@@ -37,6 +38,20 @@ public final class MOTD extends Plugin implements Listener {
     @Override
     public void onEnable() {
         instance = this;
+        if (!configFile.exists()) {
+            InputStream is = getResourceAsStream("config.yml");
+            try {
+                File path = new File("plugins" + File.separator + "DMC-MOTD");
+                if (path.mkdir()) {
+                    Files.copy(is, configFile.toPath());
+                    getProxy().getLogger().warning("[DMC-MOTD] Copying default config...");
+                } else {
+                    getProxy().getLogger().warning("[DMC-MOTD] Unable to create config folder!");
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
         loadConfig(configFile);
         ProxyServer.getInstance().getPluginManager().registerListener(this, this);
         getProxy().getPluginManager().registerCommand(this, new CommandReload("motdreload"));
