@@ -23,7 +23,6 @@ public class MOTD extends JavaPlugin implements Listener {
     private static MOTD instance;
     public FileConfiguration config;
     public File configFile = new File(getDataFolder(), "config.yml");
-    public boolean useCustomIcon = false;
     public BufferedImage bufferedImage;
     public File iconFile;
 
@@ -75,7 +74,6 @@ public class MOTD extends JavaPlugin implements Listener {
                     Bukkit.getLogger().warning("[DMC-MOTD] Unsupported file extension for server icon! You must use either JPG or PNG only.");
                     bufferedImage = null;
                 } else {
-                    useCustomIcon = true;
                     bufferedImage = ImageIO.read(iconFile);
                     if ((bufferedImage.getWidth() != 64) && bufferedImage.getHeight() != 64) {
                         Bukkit.getLogger().warning("[DMC-MOTD] Server icon MUST be 64x64 pixels! Please resize the image before using!");

@@ -28,7 +28,6 @@ public final class MOTD extends Plugin implements Listener {
     public File configFile = new File("plugins" + File.separator + "DMC-MOTD", "config.yml");
     public File iconFile;
     public Configuration configuration;
-    public boolean useCustomIcon = false;
     public BufferedImage bufferedImage;
 
     public static MOTD getInstance() {
@@ -90,7 +89,6 @@ public final class MOTD extends Plugin implements Listener {
                     getProxy().getLogger().warning("[DMC-MOTD] Unsupported file extension for server icon! You must use either JPG or PNG only.");
                     bufferedImage = null;
                 } else {
-                    useCustomIcon = true;
                     bufferedImage = ImageIO.read(iconFile);
                     if ((bufferedImage.getWidth() != 64) && bufferedImage.getHeight() != 64) {
                         getProxy().getLogger().warning("[DMC-MOTD] Server icon MUST be 64x64 pixels! Please resize the image before using!");
