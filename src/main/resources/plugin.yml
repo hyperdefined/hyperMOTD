@@ -1,6 +1,6 @@
 name: DMC-MOTD
 main: lol.hyper.motd.bukkit.MOTD
-version: LATEST
+version: ${project.version}
 author: "hyperdefined"
 commands:
   motdreload:

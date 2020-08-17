@@ -16,12 +16,7 @@ public class CommandReload extends Command {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        try {
-            MOTD.getInstance().configuration = ConfigurationProvider.getProvider(YamlConfiguration.class).load(MOTD.getInstance().configFile);
-            sender.sendMessage(new TextComponent(ChatColor.GREEN + "Config reloaded!"));
-        } catch (IOException e) {
-            e.printStackTrace();
-            MOTD.getInstance().getProxy().getLogger().severe("Unable to load configuration file!");
-        }
+        MOTD.getInstance().loadConfig(MOTD.getInstance().configFile);
+        sender.sendMessage(new TextComponent(ChatColor.GREEN + "Config reloaded!"));
     }
 }
