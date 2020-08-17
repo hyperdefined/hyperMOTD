@@ -6,7 +6,7 @@
 
     <groupId>lol.hyper</groupId>
     <artifactId>DMC-MOTD</artifactId>
-    <version>LATEST</version>
+    <version>${git.commit.id.describe-short}</version>
     <packaging>jar</packaging>
 
     <name>DMC-MOTD</name>
@@ -43,6 +43,23 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+                <version>4.0.2</version>
+                <executions>
+                    <execution>
+                        <id>get-the-git-infos</id>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                        <phase>validate</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
+                </configuration>
             </plugin>
         </plugins>
         <resources>
@@ -89,6 +106,13 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.7</version>
+        </dependency>
+        <dependency>
+            <groupId>pl.project13.maven</groupId>
+            <artifactId>git-commit-id-plugin</artifactId>
+            <version>4.0.2</version>
+            <type>maven-plugin</type>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
