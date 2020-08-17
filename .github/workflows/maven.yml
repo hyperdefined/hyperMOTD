@@ -18,8 +18,11 @@ jobs:
         with:
           java-version: 1.8
       - run: mvn -B package --file pom.xml
+      - name: Set outputs
+        id: vars
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
       - run: mkdir staging && cp target/DMC-MOTD-LATEST.jar staging
       - uses: actions/upload-artifact@v2
         with:
-          name: DMC-MOTD-LATEST-$(echo ${GITHUB_SHA} | cut -c1-8)
+          name: DMC-MOTD-LATEST-${{ steps.vars.outputs.sha_short }}
           path: staging
