@@ -107,12 +107,5 @@
             <artifactId>commons-io</artifactId>
             <version>2.7</version>
         </dependency>
-        <dependency>
-            <groupId>pl.project13.maven</groupId>
-            <artifactId>git-commit-id-plugin</artifactId>
-            <version>4.0.2</version>
-            <type>maven-plugin</type>
-            <scope>provided</scope>
-        </dependency>
     </dependencies>
 </project>
