@@ -1,7 +1,5 @@
 package lol.hyper.motd.bukkit;
 
-import net.md_5.bungee.api.Favicon;
-import net.md_5.bungee.config.ConfigurationProvider;
 import org.apache.commons.io.FilenameUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -22,7 +20,7 @@ public class MOTD extends JavaPlugin implements Listener {
 
     private static MOTD instance;
     public FileConfiguration config;
-    public File configFile = new File(getDataFolder(), "config.yml");
+    public final File configFile = new File(getDataFolder(), "config.yml");
     public BufferedImage bufferedImage;
     public File iconFile;
 
@@ -35,6 +33,7 @@ public class MOTD extends JavaPlugin implements Listener {
         instance = this;
         if (!configFile.exists()) {
             this.saveResource("config.yml", true);
+            Bukkit.getLogger().info("[DMC-MOTD] Copying default config...");
         }
         loadConfig(configFile);
         this.getCommand("motdreload").setExecutor(new CommandReload());

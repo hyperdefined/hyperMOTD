@@ -25,7 +25,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public final class MOTD extends Plugin implements Listener {
 
     private static MOTD instance;
-    public File configFile = new File("plugins" + File.separator + "DMC-MOTD", "config.yml");
+    public final File configFile = new File("plugins" + File.separator + "DMC-MOTD", "config.yml");
     public File iconFile;
     public Configuration configuration;
     public BufferedImage bufferedImage;
@@ -43,7 +43,7 @@ public final class MOTD extends Plugin implements Listener {
                 File path = new File("plugins" + File.separator + "DMC-MOTD");
                 if (path.mkdir()) {
                     Files.copy(is, configFile.toPath());
-                    getProxy().getLogger().warning("[DMC-MOTD] Copying default config...");
+                    getProxy().getLogger().info("[DMC-MOTD] Copying default config...");
                 } else {
                     getProxy().getLogger().warning("[DMC-MOTD] Unable to create config folder!");
                 }
