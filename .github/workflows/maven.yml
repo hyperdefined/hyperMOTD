@@ -21,7 +21,7 @@ jobs:
       - name: Set outputs
         id: vars
         run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
-      - run: mkdir staging && cp target/DMC-MOTD-LATEST.jar staging
+      - run: mkdir staging && cp target/DMC-MOTD-${{ steps.vars.outputs.sha_short }}.jar staging
       - uses: actions/upload-artifact@v2
         with:
           name: DMC-MOTD-${{ steps.vars.outputs.sha_short }}
