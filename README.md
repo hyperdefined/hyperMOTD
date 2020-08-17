@@ -10,4 +10,9 @@ random-motd:
  - '&6random1'
  - '&6random2'
 fixed-motd: "fixed test"
+
+# Set a cusom favicon here. This allows you to reload the icon without having to reload the proxy/server.
+# Place the icon in the DMC-MOTD folder with the config.yml
+use-custom-icon: false
+custom-icon-filename: "icon.png"
 ```
