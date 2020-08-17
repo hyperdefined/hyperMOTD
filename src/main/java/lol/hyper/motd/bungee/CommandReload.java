@@ -21,7 +21,7 @@ public class CommandReload extends Command {
             sender.sendMessage(new TextComponent(ChatColor.GREEN + "Config reloaded!"));
         } catch (IOException e) {
             e.printStackTrace();
-            MOTD.getInstance().getProxy().getLogger().severe("Unable to log configuration file!");
+            MOTD.getInstance().getProxy().getLogger().severe("Unable to load configuration file!");
         }
     }
 }

@@ -9,7 +9,6 @@ import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class MOTD extends JavaPlugin implements Listener {

@@ -35,7 +35,7 @@ public final class MOTD extends Plugin implements Listener {
             configuration = ConfigurationProvider.getProvider(YamlConfiguration.class).load(configFile);
         } catch (IOException e) {
             e.printStackTrace();
-            getProxy().getLogger().severe("Unable to log configuration file!");
+            getProxy().getLogger().severe("Unable to load configuration file!");
         }
         ProxyServer.getInstance().getPluginManager().registerListener(this, this);
         getProxy().getPluginManager().registerCommand(this, new CommandReload("motdreload"));
