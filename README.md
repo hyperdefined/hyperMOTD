@@ -1,5 +1,10 @@
 # DMC-MOTD
+![Build with Maven](https://github.com/DESTROYMC-NET/DMC-MOTD/workflows/Build%20with%20Maven/badge.svg)
+
 MOTD system for DESTROYMC.NET. The plugin supports both Bungeecord and Bukkit servers. Simply drop the jar into your plugins folder.
+
+### Download
+To download the latest build, head over to the [Actions](https://github.com/DESTROYMC-NET/DMC-MOTD/actions) page and grab the latest build. It will download a zip file. Inside the zip file is the jar file.
 
 ### Default config
 Use `/motdreload` to reload the config.
