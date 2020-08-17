@@ -1,5 +1,5 @@
 # DMC-MOTD
-MOTD system for DESTROYMC.NET.
+MOTD system for DESTROYMC.NET. The plugin supports both Bungeecord and Bukkit servers. Simply drop the jar into your plugins folder.
 
 ### Default config
 Use `/motdreload` to reload the config.
