@@ -3,10 +3,10 @@
 
 MOTD system for DESTROYMC.NET. The plugin supports both Bungeecord and Bukkit servers. Simply drop the jar into your plugins folder.
 
-### Download
+## Download
 To download the latest build, head over to the [Actions](https://github.com/DESTROYMC-NET/DMC-MOTD/actions) page and grab the latest build. It will download a zip file. Inside the zip file is the jar file.
 
-### Default config
+## Default config
 Use `/motdreload` to reload the config.
 ```yaml
 # Type can be "random" or "fixed." Random will pick a MOTD from the list. Fixed will only show the fixed MOTD.
