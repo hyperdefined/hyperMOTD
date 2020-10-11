@@ -1,7 +1,7 @@
 name: DMC-MOTD
 main: lol.hyper.motd.bukkit.MOTD
 version: ${project.version}
-author: "hyperdefined"
+author: hyperdefined
 commands:
   motdreload:
     usage: /motdreload
