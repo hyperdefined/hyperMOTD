@@ -15,34 +15,29 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.logging.Logger;
 
 public class MOTD extends JavaPlugin implements Listener {
 
-    private static MOTD instance;
     public FileConfiguration config;
     public final File configFile = new File(getDataFolder(), "config.yml");
     public BufferedImage bufferedImage;
     public File iconFile;
-
-    public static MOTD getInstance() {
-        return instance;
-    }
+    public Logger logger = this.getLogger();
 
     @Override
     public void onEnable() {
-        instance = this;
         if (!configFile.exists()) {
             this.saveResource("config.yml", true);
-            Bukkit.getLogger().info("[DMC-MOTD] Copying default config...");
+            logger.info("Copying default config...");
         }
         loadConfig(configFile);
-        this.getCommand("motdreload").setExecutor(new CommandReload());
+        this.getCommand("motdreload").setExecutor(new CommandReload(this));
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
     }
 
     @Override
     public void onDisable() {
-
     }
 
     @EventHandler
@@ -65,24 +60,24 @@ public class MOTD extends JavaPlugin implements Listener {
             if (config.getBoolean("use-custom-icon")) {
                 iconFile = new File("plugins" + File.separator + "DMC-MOTD", config.getString("custom-icon-filename"));
                 if (!iconFile.exists()) {
-                    Bukkit.getLogger().warning("[DMC-MOTD] Unable to locate custom icon from configuration! Make sure you have the path correct!");
-                    Bukkit.getLogger().warning("[DMC-MOTD] The path is current set to: " + iconFile.getAbsolutePath());
-                    Bukkit.getLogger().warning("[DMC-MOTD] Make sure this path exists!");
+                    logger.warning("Unable to locate custom icon from configuration! Make sure you have the path correct!");
+                    logger.warning("The path is current set to: " + iconFile.getAbsolutePath());
+                    logger.warning("Make sure this path exists!");
                     bufferedImage = null;
                 } else if (!(FilenameUtils.getExtension(iconFile.getName()).equalsIgnoreCase("jpg") || FilenameUtils.getExtension(iconFile.getName()).equalsIgnoreCase("png"))) {
-                    Bukkit.getLogger().warning("[DMC-MOTD] Unsupported file extension for server icon! You must use either JPG or PNG only.");
+                    logger.warning("Unsupported file extension for server icon! You must use either JPG or PNG only.");
                     bufferedImage = null;
                 } else {
                     bufferedImage = ImageIO.read(iconFile);
                     if ((bufferedImage.getWidth() != 64) && bufferedImage.getHeight() != 64) {
-                        Bukkit.getLogger().warning("[DMC-MOTD] Server icon MUST be 64x64 pixels! Please resize the image before using!");
+                        logger.warning("Server icon MUST be 64x64 pixels! Please resize the image before using!");
                         bufferedImage = null;
                     }
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
-            Bukkit.getLogger().severe("[DMC-MOTD] Unable to load configuration file!");
+            logger.severe("loggerUnable to load configuration file!");
         }
     }
 }

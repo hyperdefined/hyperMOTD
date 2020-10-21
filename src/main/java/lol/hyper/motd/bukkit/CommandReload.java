@@ -7,10 +7,17 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 
 public class CommandReload implements CommandExecutor {
+
+    private final MOTD motd;
+
+    public CommandReload(MOTD motd) {
+        this.motd = motd;
+    }
+
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (commandSender.isOp() || commandSender instanceof ConsoleCommandSender) {
-            MOTD.getInstance().loadConfig(MOTD.getInstance().configFile);
+            motd.loadConfig(motd.configFile);
             commandSender.sendMessage(ChatColor.GREEN + "Config reloaded!");
         } else {
             commandSender.sendMessage(ChatColor.RED + "No permission.");

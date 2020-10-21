@@ -21,31 +21,27 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.logging.Logger;
 
 public final class MOTD extends Plugin implements Listener {
 
-    private static MOTD instance;
     public final File configFile = new File("plugins" + File.separator + "DMC-MOTD", "config.yml");
     public File iconFile;
     public Configuration configuration;
     public BufferedImage bufferedImage;
-
-    public static MOTD getInstance() {
-        return instance;
-    }
+    public Logger logger = this.getLogger();
 
     @Override
     public void onEnable() {
-        instance = this;
         if (!configFile.exists()) {
             InputStream is = getResourceAsStream("config.yml");
             try {
                 File path = new File("plugins" + File.separator + "DMC-MOTD");
                 if (path.mkdir()) {
                     Files.copy(is, configFile.toPath());
-                    getProxy().getLogger().info("[DMC-MOTD] Copying default config...");
+                    logger.info("Copying default config...");
                 } else {
-                    getProxy().getLogger().warning("[DMC-MOTD] Unable to create config folder!");
+                    logger.warning("Unable to create config folder!");
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -53,7 +49,7 @@ public final class MOTD extends Plugin implements Listener {
         }
         loadConfig(configFile);
         ProxyServer.getInstance().getPluginManager().registerListener(this, this);
-        getProxy().getPluginManager().registerCommand(this, new CommandReload("motdreload"));
+        getProxy().getPluginManager().registerCommand(this, new CommandReload("motdreload", this));
     }
 
     @Override
@@ -81,24 +77,24 @@ public final class MOTD extends Plugin implements Listener {
             if (configuration.getBoolean("use-custom-icon")) {
                 iconFile = new File("plugins" + File.separator + "DMC-MOTD", configuration.getString("custom-icon-filename"));
                 if (!iconFile.exists()) {
-                    getProxy().getLogger().warning("[DMC-MOTD] Unable to locate custom icon from configuration! Make sure you have the path correct!");
-                    getProxy().getLogger().warning("[DMC-MOTD] The path is current set to: " + iconFile.getAbsolutePath());
-                    getProxy().getLogger().warning("[DMC-MOTD] Make sure this path exists!");
+                    logger.warning("Unable to locate custom icon from configuration! Make sure you have the path correct!");
+                    logger.warning("The path is current set to: " + iconFile.getAbsolutePath());
+                    logger.warning("Make sure this path exists!");
                     bufferedImage = null;
                 } else if (!(FilenameUtils.getExtension(iconFile.getName()).equalsIgnoreCase("jpg") || FilenameUtils.getExtension(iconFile.getName()).equalsIgnoreCase("png"))) {
-                    getProxy().getLogger().warning("[DMC-MOTD] Unsupported file extension for server icon! You must use either JPG or PNG only.");
+                    logger.warning("Unsupported file extension for server icon! You must use either JPG or PNG only.");
                     bufferedImage = null;
                 } else {
                     bufferedImage = ImageIO.read(iconFile);
                     if ((bufferedImage.getWidth() != 64) && bufferedImage.getHeight() != 64) {
-                        getProxy().getLogger().warning("[DMC-MOTD] Server icon MUST be 64x64 pixels! Please resize the image before using!");
+                        logger.warning("Server icon MUST be 64x64 pixels! Please resize the image before using!");
                         bufferedImage = null;
                     }
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
-            getProxy().getLogger().severe("[DMC-MOTD] Unable to load configuration file!");
+            logger.severe("Unable to load configuration file!");
         }
     }
 }

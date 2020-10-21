@@ -6,13 +6,16 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.plugin.Command;
 
 public class CommandReload extends Command {
-    public CommandReload(String name) {
+
+    private final MOTD motd;
+    public CommandReload(String name, MOTD motd) {
         super(name);
+        this.motd = motd;
     }
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        MOTD.getInstance().loadConfig(MOTD.getInstance().configFile);
+        motd.loadConfig(motd.configFile);
         sender.sendMessage(new TextComponent(ChatColor.GREEN + "Config reloaded!"));
     }
 }
