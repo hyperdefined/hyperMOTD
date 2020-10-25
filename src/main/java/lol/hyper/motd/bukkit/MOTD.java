@@ -14,6 +14,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Logger;
 
@@ -30,6 +31,16 @@ public class MOTD extends JavaPlugin implements Listener {
         if (!configFile.exists()) {
             this.saveResource("config.yml", true);
             logger.info("Copying default config...");
+            File serverIcon = new File("server-icon.png");
+            if (serverIcon.exists()) {
+                try {
+                    Files.copy(serverIcon.toPath(), new File("plugins" + File.separator + "DMC-MOTD", "server-icon").toPath());
+                } catch (IOException e) {
+                    logger.severe("Unable to move current server icon!");
+                    e.printStackTrace();
+                }
+                logger.info("Moving current server...");
+            }
         }
         loadConfig(configFile);
         this.getCommand("motdreload").setExecutor(new CommandReload(this));
