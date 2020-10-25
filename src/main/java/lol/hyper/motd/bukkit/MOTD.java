@@ -39,7 +39,7 @@ public class MOTD extends JavaPlugin implements Listener {
                     logger.severe("Unable to move current server icon!");
                     e.printStackTrace();
                 }
-                logger.info("Moving current server...");
+                logger.info("Moving current server icon...");
             }
         }
         loadConfig(configFile);

@@ -43,7 +43,7 @@ public final class MOTD extends Plugin implements Listener {
                     logger.info("Copying default config...");
                     if (serverIcon.exists()) {
                         Files.copy(serverIcon.toPath(), new File("plugins" + File.separator + "DMC-MOTD", "server-icon").toPath());
-                        logger.info("Moving current server...");
+                        logger.info("Moving current server icon...");
                     }
                 } else {
                     logger.warning("Unable to create config folder!");
