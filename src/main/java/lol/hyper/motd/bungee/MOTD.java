@@ -35,11 +35,16 @@ public final class MOTD extends Plugin implements Listener {
     public void onEnable() {
         if (!configFile.exists()) {
             InputStream is = getResourceAsStream("config.yml");
+            File serverIcon = new File("server-icon.png");
             try {
                 File path = new File("plugins" + File.separator + "DMC-MOTD");
                 if (path.mkdir()) {
                     Files.copy(is, configFile.toPath());
                     logger.info("Copying default config...");
+                    if (serverIcon.exists()) {
+                        Files.copy(serverIcon.toPath(), new File("plugins" + File.separator + "DMC-MOTD", "server-icon").toPath());
+                        logger.info("Moving current server...");
+                    }
                 } else {
                     logger.warning("Unable to create config folder!");
                 }
