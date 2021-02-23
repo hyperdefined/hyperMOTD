@@ -1,3 +1,20 @@
+/*
+ * This file is part of DMC-MOTD.
+ *
+ * DMC-MOTD is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * DMC-MOTD is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with DMC-MOTD.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package lol.hyper.motd.bukkit;
 
 import org.apache.commons.io.FilenameUtils;
@@ -45,10 +62,6 @@ public class MOTD extends JavaPlugin implements Listener {
         loadConfig(configFile);
         this.getCommand("motdreload").setExecutor(new CommandReload(this));
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
-    }
-
-    @Override
-    public void onDisable() {
     }
 
     @EventHandler
