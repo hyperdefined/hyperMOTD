@@ -65,7 +65,7 @@ public class MOTD extends JavaPlugin implements Listener {
     }
 
     @EventHandler
-    public void onPing (ServerListPingEvent event) throws Exception {
+    public void onPing(ServerListPingEvent event) throws Exception {
         if (config.getString("type").equalsIgnoreCase("fixed")) {
             event.setMotd(ChatColor.translateAlternateColorCodes('&', config.getString("fixed-motd")));
         }
