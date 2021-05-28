@@ -25,6 +25,7 @@ import net.md_5.bungee.api.plugin.Command;
 public class CommandReload extends Command {
 
     private final MOTD motd;
+
     public CommandReload(String name, MOTD motd) {
         super(name);
         this.motd = motd;

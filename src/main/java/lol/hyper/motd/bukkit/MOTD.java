@@ -37,8 +37,8 @@ import java.util.logging.Logger;
 
 public class MOTD extends JavaPlugin implements Listener {
 
-    public FileConfiguration config;
     public final File configFile = new File(getDataFolder(), "config.yml");
+    public FileConfiguration config;
     public BufferedImage bufferedImage;
     public File iconFile;
     public Logger logger = this.getLogger();
@@ -51,7 +51,9 @@ public class MOTD extends JavaPlugin implements Listener {
             File serverIcon = new File("server-icon.png");
             if (serverIcon.exists()) {
                 try {
-                    Files.copy(serverIcon.toPath(), new File("plugins" + File.separator + "DMC-MOTD", "server-icon").toPath());
+                    Files.copy(
+                            serverIcon.toPath(),
+                            new File("plugins" + File.separator + "DMC-MOTD", "server-icon").toPath());
                 } catch (IOException e) {
                     logger.severe("Unable to move current server icon!");
                     e.printStackTrace();
@@ -70,8 +72,10 @@ public class MOTD extends JavaPlugin implements Listener {
             event.setMotd(ChatColor.translateAlternateColorCodes('&', config.getString("fixed-motd")));
         }
         if (config.getString("type").equalsIgnoreCase("random")) {
-            int randomNum = ThreadLocalRandom.current().nextInt(0, config.getStringList("random-motd").size());
-            event.setMotd(ChatColor.translateAlternateColorCodes('&', config.getStringList("random-motd").get(randomNum)));
+            int randomNum = ThreadLocalRandom.current()
+                    .nextInt(0, config.getStringList("random-motd").size());
+            event.setMotd(ChatColor.translateAlternateColorCodes(
+                    '&', config.getStringList("random-motd").get(randomNum)));
         }
         if (config.getBoolean("use-custom-icon") && bufferedImage != null) {
             event.setServerIcon(Bukkit.loadServerIcon(bufferedImage));
@@ -84,11 +88,13 @@ public class MOTD extends JavaPlugin implements Listener {
             if (config.getBoolean("use-custom-icon")) {
                 iconFile = new File("plugins" + File.separator + "DMC-MOTD", config.getString("custom-icon-filename"));
                 if (!iconFile.exists()) {
-                    logger.warning("Unable to locate custom icon from configuration! Make sure you have the path correct!");
+                    logger.warning(
+                            "Unable to locate custom icon from configuration! Make sure you have the path correct!");
                     logger.warning("The path is current set to: " + iconFile.getAbsolutePath());
                     logger.warning("Make sure this path exists!");
                     bufferedImage = null;
-                } else if (!(FilenameUtils.getExtension(iconFile.getName()).equalsIgnoreCase("jpg") || FilenameUtils.getExtension(iconFile.getName()).equalsIgnoreCase("png"))) {
+                } else if (!(FilenameUtils.getExtension(iconFile.getName()).equalsIgnoreCase("jpg")
+                        || FilenameUtils.getExtension(iconFile.getName()).equalsIgnoreCase("png"))) {
                     logger.warning("Unsupported file extension for server icon! You must use either JPG or PNG only.");
                     bufferedImage = null;
                 } else {

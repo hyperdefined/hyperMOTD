@@ -59,7 +59,9 @@ public final class MOTD extends Plugin implements Listener {
                     Files.copy(is, configFile.toPath());
                     logger.info("Copying default config...");
                     if (serverIcon.exists()) {
-                        Files.copy(serverIcon.toPath(), new File("plugins" + File.separator + "DMC-MOTD", "server-icon").toPath());
+                        Files.copy(
+                                serverIcon.toPath(),
+                                new File("plugins" + File.separator + "DMC-MOTD", "server-icon").toPath());
                         logger.info("Moving current server icon...");
                     }
                 } else {
@@ -78,10 +80,13 @@ public final class MOTD extends Plugin implements Listener {
     public void onPing(ProxyPingEvent e) {
         ServerPing response = e.getResponse();
         if (configuration.getString("type").equalsIgnoreCase("random")) {
-            int randomNum = ThreadLocalRandom.current().nextInt(0, configuration.getStringList("random-motd").size());
-            response.setDescriptionComponent(new TextComponent(ChatColor.translateAlternateColorCodes('&', configuration.getStringList("random-motd").get(randomNum))));
+            int randomNum = ThreadLocalRandom.current()
+                    .nextInt(0, configuration.getStringList("random-motd").size());
+            response.setDescriptionComponent(new TextComponent(ChatColor.translateAlternateColorCodes(
+                    '&', configuration.getStringList("random-motd").get(randomNum))));
         } else if (configuration.getString("type").equalsIgnoreCase("fixed")) {
-            response.setDescriptionComponent(new TextComponent(ChatColor.translateAlternateColorCodes('&', configuration.getString("fixed-motd"))));
+            response.setDescriptionComponent(new TextComponent(
+                    ChatColor.translateAlternateColorCodes('&', configuration.getString("fixed-motd"))));
         }
         if (configuration.getBoolean("use-custom-icon") && bufferedImage != null) {
             response.setFavicon(Favicon.create(bufferedImage));
@@ -90,15 +95,19 @@ public final class MOTD extends Plugin implements Listener {
 
     public void loadConfig(File file) {
         try {
-            configuration = ConfigurationProvider.getProvider(YamlConfiguration.class).load(file);
+            configuration =
+                    ConfigurationProvider.getProvider(YamlConfiguration.class).load(file);
             if (configuration.getBoolean("use-custom-icon")) {
-                iconFile = new File("plugins" + File.separator + "DMC-MOTD", configuration.getString("custom-icon-filename"));
+                iconFile = new File(
+                        "plugins" + File.separator + "DMC-MOTD", configuration.getString("custom-icon-filename"));
                 if (!iconFile.exists()) {
-                    logger.warning("Unable to locate custom icon from configuration! Make sure you have the path correct!");
+                    logger.warning(
+                            "Unable to locate custom icon from configuration! Make sure you have the path correct!");
                     logger.warning("The path is current set to: " + iconFile.getAbsolutePath());
                     logger.warning("Make sure this path exists!");
                     bufferedImage = null;
-                } else if (!(FilenameUtils.getExtension(iconFile.getName()).equalsIgnoreCase("jpg") || FilenameUtils.getExtension(iconFile.getName()).equalsIgnoreCase("png"))) {
+                } else if (!(FilenameUtils.getExtension(iconFile.getName()).equalsIgnoreCase("jpg")
+                        || FilenameUtils.getExtension(iconFile.getName()).equalsIgnoreCase("png"))) {
                     logger.warning("Unsupported file extension for server icon! You must use either JPG or PNG only.");
                     bufferedImage = null;
                 } else {
