@@ -41,7 +41,7 @@ public class MOTD extends JavaPlugin implements Listener {
     public FileConfiguration config;
     public BufferedImage bufferedImage;
     public File iconFile;
-    public Logger logger = this.getLogger();
+    public final Logger logger = this.getLogger();
 
     @Override
     public void onEnable() {
@@ -107,7 +107,7 @@ public class MOTD extends JavaPlugin implements Listener {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            logger.severe("loggerUnable to load configuration file!");
+            logger.severe("Unable to load configuration file!");
         }
     }
 }

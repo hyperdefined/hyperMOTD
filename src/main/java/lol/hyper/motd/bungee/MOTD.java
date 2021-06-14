@@ -46,7 +46,7 @@ public final class MOTD extends Plugin implements Listener {
     public File iconFile;
     public Configuration configuration;
     public BufferedImage bufferedImage;
-    public Logger logger = this.getLogger();
+    public final Logger logger = this.getLogger();
 
     @Override
     public void onEnable() {

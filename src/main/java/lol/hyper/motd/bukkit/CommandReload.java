@@ -23,13 +23,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 
-public class CommandReload implements CommandExecutor {
-
-    private final MOTD motd;
-
-    public CommandReload(MOTD motd) {
-        this.motd = motd;
-    }
+public record CommandReload(MOTD motd) implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
