@@ -2,10 +2,13 @@ package lol.hyper.motdvelocity;
 
 import com.google.inject.Inject;
 import com.moandjiezana.toml.Toml;
+import com.velocitypowered.api.command.CommandManager;
+import com.velocitypowered.api.command.CommandMeta;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.proxy.ProxyServer;
+import lol.hyper.motdvelocity.commands.CommandReload;
 import lol.hyper.motdvelocity.events.PingEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -26,15 +29,18 @@ public class MOTDVelocity {
 
     public final Logger logger;
     private final ProxyServer server;
+    private final CommandManager commandManager;
     public MiniMessage miniMessage = MiniMessage.miniMessage();
     public Toml config;
     public BufferedImage bufferedImage;
     public PingEvent pingEvent;
+    public CommandReload commandReload;
 
     @Inject
-    public MOTDVelocity(ProxyServer server, Logger logger) {
+    public MOTDVelocity(ProxyServer server, Logger logger, CommandManager commandManager) {
         this.server = server;
         this.logger = logger;
+        this.commandManager = commandManager;
     }
 
     @Subscribe
@@ -42,6 +48,9 @@ public class MOTDVelocity {
         pingEvent = new PingEvent(this);
         loadConfig();
         server.getEventManager().register(this, pingEvent);
+
+        CommandMeta meta = commandManager.metaBuilder("motdreload").build();
+        commandManager.register(meta, commandReload);
     }
 
     public void loadConfig() {
