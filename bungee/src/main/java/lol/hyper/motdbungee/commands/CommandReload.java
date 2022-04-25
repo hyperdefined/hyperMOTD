@@ -15,8 +15,9 @@
  * along with DMC-MOTD.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package lol.hyper.motd.bungee;
+package lol.hyper.motdbungee.commands;
 
+import lol.hyper.motdbungee.MOTDBungee;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -24,9 +25,9 @@ import net.md_5.bungee.api.plugin.Command;
 
 public class CommandReload extends Command {
 
-    private final MOTD motd;
+    private final MOTDBungee motd;
 
-    public CommandReload(String name, MOTD motd) {
+    public CommandReload(String name, MOTDBungee motd) {
         super(name);
         this.motd = motd;
     }
