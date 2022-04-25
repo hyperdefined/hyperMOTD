@@ -38,6 +38,11 @@ public class PingEvent {
     @Subscribe(order = PostOrder.FIRST)
     public void onPlayerLogin(ProxyPingEvent event) {
         ServerPing.Builder builder = event.getPing().asBuilder();
+        // check for existing icon
+        Favicon currentIcon = null;
+        if (builder.getFavicon().isPresent()) {
+            currentIcon = builder.getFavicon().get();
+        }
         if (motd.config.getString("type").equalsIgnoreCase("fixed")) {
             Component finalMOTD = motd.getMessage("fixed-motd");
             builder.description(finalMOTD);
@@ -51,6 +56,9 @@ public class PingEvent {
 
         if (motd.config.getBoolean("use-custom-icon") && motd.bufferedImage != null) {
             builder.favicon(Favicon.create(motd.bufferedImage));
+        }
+        if (currentIcon != null) {
+            builder.favicon(currentIcon);
         }
         event.setPing(builder.build());
     }
