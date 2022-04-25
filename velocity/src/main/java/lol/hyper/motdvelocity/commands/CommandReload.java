@@ -19,14 +19,23 @@ package lol.hyper.motdvelocity.commands;
 
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
+import lol.hyper.motdvelocity.MOTDVelocity;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 
 public class CommandReload implements SimpleCommand {
+
+    private final MOTDVelocity motd;
+
+    public CommandReload(MOTDVelocity motd) {
+        this.motd = motd;
+    }
+
     @Override
     public void execute(Invocation invocation) {
         CommandSource source = invocation.source();
         if (source.hasPermission("motdvelocity.reload")) {
+            motd.loadConfig(motd.configFile);
             source.sendMessage(Component.text("Config reloaded!").color(NamedTextColor.GREEN));
         } else {
             source.sendMessage(Component.text("You do not have permission for this command.").color(NamedTextColor.RED));

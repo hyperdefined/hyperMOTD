@@ -52,6 +52,7 @@ public class MOTDVelocity {
     public BufferedImage bufferedImage;
     public PingEvent pingEvent;
     public CommandReload commandReload;
+    public final File configFile = new File("plugins" + File.separator + "hyperMOTD", "config.toml");
 
     @Inject
     public MOTDVelocity(ProxyServer server, Logger logger, CommandManager commandManager) {
@@ -62,24 +63,23 @@ public class MOTDVelocity {
 
     @Subscribe
     public void onProxyInitialization(ProxyInitializeEvent event) {
-        commandReload = new CommandReload();
+        commandReload = new CommandReload(this);
         pingEvent = new PingEvent(this);
-        loadConfig();
+        loadConfig(configFile);
         server.getEventManager().register(this, pingEvent);
 
         CommandMeta meta = commandManager.metaBuilder("motdreload").build();
         commandManager.register(meta, commandReload);
     }
 
-    public void loadConfig() {
-        File configFile = new File("plugins" + File.separator + "hyperMOTD", "config.toml");
-        if (!configFile.exists()) {
+    public void loadConfig(File file) {
+        if (!file.exists()) {
             InputStream is = this.getClass().getResourceAsStream( "/config.toml");
             File path = new File("plugins" + File.separator + "hyperMOTD");
             if (is != null) {
                 try {
                     if (path.mkdir()) {
-                        Files.copy(is, configFile.toPath());
+                        Files.copy(is, file.toPath());
                         this.logger.info("Copying default config...");
                     } else {
                         this.logger.error("Unable to create config folder!");
@@ -91,7 +91,7 @@ public class MOTDVelocity {
         }
         InputStream inputStream;
         try {
-            inputStream = new FileInputStream(configFile);
+            inputStream = new FileInputStream(file);
         } catch (FileNotFoundException e) {
             this.logger.error("Unable to find config!", e);
             return;
