@@ -1,3 +1,20 @@
+/*
+ * This file is part of hyperMOTD.
+ *
+ * hyperMOTD is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * hyperMOTD is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with hyperMOTD.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package lol.hyper.motdvelocity;
 
 import com.google.inject.Inject;
@@ -21,8 +38,8 @@ import java.io.*;
 import java.nio.file.Files;
 
 @Plugin(
-        id = "motdvelocity",
-        name = "DMC-MOTD",
+        id = "hypermotd",
+        name = "hyperMOTD",
         version = "1.0"
 )
 public class MOTDVelocity {
@@ -54,10 +71,10 @@ public class MOTDVelocity {
     }
 
     public void loadConfig() {
-        File configFile = new File("plugins" + File.separator + "DMC-MOTD", "config.toml");
+        File configFile = new File("plugins" + File.separator + "hyperMOTD", "config.toml");
         if (!configFile.exists()) {
             InputStream is = this.getClass().getResourceAsStream( "/config.toml");
-            File path = new File("plugins" + File.separator + "DMC-MOTD");
+            File path = new File("plugins" + File.separator + "hyperMOTD");
             if (is != null) {
                 try {
                     if (path.mkdir()) {
@@ -81,7 +98,7 @@ public class MOTDVelocity {
         config = new Toml().read(inputStream);
 
         if (config.getBoolean("use-custom-icon")) {
-            File iconFile = new File("plugins" + File.separator + "DMC-MOTD", config.getString("custom-icon-filename"));
+            File iconFile = new File("plugins" + File.separator + "hyperMOTD", config.getString("custom-icon-filename"));
             if (!iconFile.exists()) {
                 logger.warn(
                         "Unable to locate custom icon from configuration! Make sure you have the path correct!");

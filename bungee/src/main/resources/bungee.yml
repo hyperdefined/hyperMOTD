@@ -1,4 +1,4 @@
-name: DMC-MOTD
+name: hyperMOTD
 version: ${project.version}
 main: lol.hyper.motdbungee.MOTDBungee
 author: hyperdefined

@@ -1,18 +1,18 @@
 /*
- * This file is part of DMC-MOTD.
+ * This file is part of hyperMOTD.
  *
- * DMC-MOTD is free software: you can redistribute it and/or modify
+ * hyperMOTD is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * DMC-MOTD is distributed in the hope that it will be useful,
+ * hyperMOTD is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with DMC-MOTD.  If not, see <https://www.gnu.org/licenses/>.
+ * along with hyperMOTD.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package lol.hyper.motdbungee;
@@ -39,7 +39,7 @@ import java.util.logging.Logger;
 
 public final class MOTDBungee extends Plugin {
 
-    public final File configFile = new File("plugins" + File.separator + "DMC-MOTD", "config.yml");
+    public final File configFile = new File("plugins" + File.separator + "hyperMOTD", "config.yml");
     public File iconFile;
     public Configuration config;
     public BufferedImage bufferedImage;
@@ -58,14 +58,14 @@ public final class MOTDBungee extends Plugin {
             InputStream is = getResourceAsStream("config.yml");
             File serverIcon = new File("server-icon.png");
             try {
-                File path = new File("plugins" + File.separator + "DMC-MOTD");
+                File path = new File("plugins" + File.separator + "hyperMOTD");
                 if (path.mkdir()) {
                     Files.copy(is, configFile.toPath());
                     logger.info("Copying default config...");
                     if (serverIcon.exists()) {
                         Files.copy(
                                 serverIcon.toPath(),
-                                new File("plugins" + File.separator + "DMC-MOTD", "server-icon").toPath());
+                                new File("plugins" + File.separator + "hyperMOTD", "server-icon").toPath());
                         logger.info("Moving current server icon...");
                     }
                 } else {
@@ -89,7 +89,7 @@ public final class MOTDBungee extends Plugin {
                 if (iconName == null || iconName.isEmpty()) {
                     logger.warning("custom-icon-filename is not set properly!");
                 } else {
-                    iconFile = new File("plugins" + File.separator + "DMC-MOTD", iconName);
+                    iconFile = new File("plugins" + File.separator + "hyperMOTD", iconName);
                     if (!iconFile.exists()) {
                         logger.warning(
                                 "Unable to locate custom icon from configuration! Make sure you have the path correct!");
