@@ -62,6 +62,7 @@ public class MOTDVelocity {
 
     @Subscribe
     public void onProxyInitialization(ProxyInitializeEvent event) {
+        commandReload = new CommandReload();
         pingEvent = new PingEvent(this);
         loadConfig();
         server.getEventManager().register(this, pingEvent);
