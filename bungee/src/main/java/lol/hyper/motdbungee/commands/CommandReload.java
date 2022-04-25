@@ -18,9 +18,9 @@
 package lol.hyper.motdbungee.commands;
 
 import lol.hyper.motdbungee.MOTDBungee;
-import net.md_5.bungee.api.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.plugin.Command;
 
 public class CommandReload extends Command {
@@ -34,7 +34,11 @@ public class CommandReload extends Command {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        motd.loadConfig(motd.configFile);
-        sender.sendMessage(new TextComponent(ChatColor.GREEN + "Config reloaded!"));
+        if (sender.hasPermission("motdbungee.reload")) {
+            motd.loadConfig(motd.configFile);
+            motd.getAdventure().sender(sender).sendMessage(Component.text("Config reloaded!").color(NamedTextColor.GREEN));
+        } else {
+            motd.getAdventure().sender(sender).sendMessage(Component.text("You do not have permission for this command.").color(NamedTextColor.RED));
+        }
     }
 }

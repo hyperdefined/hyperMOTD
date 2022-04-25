@@ -47,7 +47,7 @@ public final class MOTDBungee extends Plugin {
     public PingEvent pingEvent;
     public CommandReload commandReload;
     public final MiniMessage miniMessage = MiniMessage.miniMessage();
-    public BungeeAudiences adventure;
+    private BungeeAudiences adventure;
 
     @Override
     public void onEnable() {
@@ -122,5 +122,12 @@ public final class MOTDBungee extends Plugin {
             return miniMessage.deserialize("<red>Invalid path! " + path + "</red>");
         }
         return miniMessage.deserialize(message);
+    }
+
+    public BungeeAudiences getAdventure() {
+        if(this.adventure == null) {
+            throw new IllegalStateException("Tried to access Adventure when the plugin was disabled!");
+        }
+        return this.adventure;
     }
 }
