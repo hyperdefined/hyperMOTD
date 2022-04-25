@@ -35,10 +35,11 @@
 package lol.hyper.motdbukkit.commands;
 
 import lol.hyper.motdbukkit.MOTDBukkit;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.jetbrains.annotations.NotNull;
 
 public class CommandReload implements CommandExecutor {
@@ -51,11 +52,11 @@ public class CommandReload implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        if (commandSender.isOp() || commandSender instanceof ConsoleCommandSender) {
+        if (commandSender.hasPermission("motdbukkit.reload")) {
             motd.loadConfig(motd.configFile);
-            motd.getAdventure().sender(commandSender).sendMessage(motd.miniMessage.deserialize("<green>Config reloaded!</green>"));
+            motd.getAdventure().sender(commandSender).sendMessage(Component.text("Config reloaded!").color(NamedTextColor.GREEN));
         } else {
-            motd.getAdventure().sender(commandSender).sendMessage(motd.miniMessage.deserialize("<red>You do not have permission for this command.</red>"));
+            motd.getAdventure().sender(commandSender).sendMessage(Component.text("You do not have permission for this command.").color(NamedTextColor.RED));
         }
         return true;
     }
