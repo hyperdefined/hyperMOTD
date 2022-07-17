@@ -28,6 +28,7 @@ import com.velocitypowered.api.proxy.ProxyServer;
 import lol.hyper.motdvelocity.commands.CommandReload;
 import lol.hyper.motdvelocity.events.PingEvent;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
@@ -130,7 +131,7 @@ public class MOTDVelocity {
         String message = config.getString(path);
         if (message == null) {
             logger.warn(path + " is not a valid message!");
-            return miniMessage.deserialize("<red>Invalid path! " + path + "</red>");
+            return Component.text("Invalid path! " + path).color(NamedTextColor.RED);
         }
         return miniMessage.deserialize(message);
     }

@@ -21,6 +21,7 @@ import lol.hyper.motdbukkit.commands.CommandReload;
 import lol.hyper.motdbukkit.events.PingEvent;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.apache.commons.io.FilenameUtils;
 import org.bukkit.Bukkit;
@@ -118,7 +119,7 @@ public class MOTDBukkit extends JavaPlugin {
         String message = config.getString(path);
         if (message == null) {
             logger.warning(path + " is not a valid message!");
-            return miniMessage.deserialize("<red>Invalid path! " + path + "</red>");
+            return Component.text("Invalid path! " + path).color(NamedTextColor.RED);
         }
         return miniMessage.deserialize(message);
     }

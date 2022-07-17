@@ -21,6 +21,7 @@ import lol.hyper.motdbungee.commands.CommandReload;
 import lol.hyper.motdbungee.events.PingEvent;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -119,7 +120,7 @@ public final class MOTDBungee extends Plugin {
         String message = config.getString(path);
         if (message == null) {
             logger.warning(path + " is not a valid message!");
-            return miniMessage.deserialize("<red>Invalid path! " + path + "</red>");
+            return Component.text("Invalid path! " + path).color(NamedTextColor.RED);
         }
         return miniMessage.deserialize(message);
     }
