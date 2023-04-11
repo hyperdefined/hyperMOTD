@@ -27,19 +27,19 @@ import org.jetbrains.annotations.NotNull;
 
 public class CommandReload implements CommandExecutor {
 
-    private final MOTDPaper motd;
+    private final MOTDPaper motdPaper;
 
-    public CommandReload(MOTDPaper motd) {
-        this.motd = motd;
+    public CommandReload(MOTDPaper motdPaper) {
+        this.motdPaper = motdPaper;
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (commandSender.hasPermission("hypermotd.reload")) {
-            motd.loadConfig(motd.configFile);
-            motd.getAdventure().sender(commandSender).sendMessage(Component.text("Config reloaded!").color(NamedTextColor.GREEN));
+            motdPaper.loadConfig(motdPaper.configFile);
+            motdPaper.getAdventure().sender(commandSender).sendMessage(Component.text("Config reloaded!").color(NamedTextColor.GREEN));
         } else {
-            motd.getAdventure().sender(commandSender).sendMessage(Component.text("You do not have permission for this command.").color(NamedTextColor.RED));
+            motdPaper.getAdventure().sender(commandSender).sendMessage(Component.text("You do not have permission for this command.").color(NamedTextColor.RED));
         }
         return true;
     }

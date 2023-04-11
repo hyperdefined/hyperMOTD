@@ -79,10 +79,6 @@
                                     <pattern>lol.hyper.githubreleaseapi</pattern>
                                     <shadedPattern>lol.hyper.hypermotd.updater</shadedPattern>
                                 </relocation>
-                                <relocation>
-                                    <pattern>org.apache.commons.io</pattern>
-                                    <shadedPattern>lol.hyper.hypermotd.commonsio</shadedPattern>
-                                </relocation>
                             </relocations>
                         </configuration>
                     </execution>
@@ -104,12 +100,6 @@
             <artifactId>velocity-api</artifactId>
             <version>3.1.2-SNAPSHOT</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.11.0</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>lol.hyper</groupId>

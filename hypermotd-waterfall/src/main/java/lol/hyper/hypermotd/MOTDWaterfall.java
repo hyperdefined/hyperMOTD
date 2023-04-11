@@ -28,7 +28,6 @@ import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
-import org.apache.commons.io.FilenameUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -100,8 +99,7 @@ public final class MOTDWaterfall extends Plugin {
                     bufferedImage = null;
                     return;
                 }
-                if (!(FilenameUtils.getExtension(iconFile.getName()).equalsIgnoreCase("jpg")
-                        || FilenameUtils.getExtension(iconFile.getName()).equalsIgnoreCase("png"))) {
+                if (!checkIcon(iconFile)) {
                     logger.warning("Unsupported file extension for server icon! You must use either JPG or PNG only.");
                     bufferedImage = null;
                     return;
@@ -133,5 +131,13 @@ public final class MOTDWaterfall extends Plugin {
             throw new IllegalStateException("Tried to access Adventure when the plugin was disabled!");
         }
         return this.adventure;
+    }
+
+    private boolean checkIcon(File file) {
+        String fileName = file.getName();
+        int dotIndex = fileName.lastIndexOf('.');
+        String extension = dotIndex > 0 ? fileName.substring(dotIndex + 1) : null;
+        if (extension == null) return false;
+        return extension.equalsIgnoreCase("png") || extension.equalsIgnoreCase("jpg");
     }
 }

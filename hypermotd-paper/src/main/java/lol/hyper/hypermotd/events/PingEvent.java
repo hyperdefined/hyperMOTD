@@ -29,32 +29,32 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class PingEvent implements Listener {
 
-    private final MOTDPaper motd;
+    private final MOTDPaper motdPaper;
 
-    public PingEvent(MOTDPaper motd) {
-        this.motd = motd;
+    public PingEvent(MOTDPaper motdPaper) {
+        this.motdPaper = motdPaper;
     }
 
     @EventHandler
     public void onPing(PaperServerListPingEvent event) {
-        if (motd.config.getString("type").equalsIgnoreCase("fixed")) {
-            Component formattedMOTD = motd.getMessage("fixed-motd");
+        if (motdPaper.config.getString("type").equalsIgnoreCase("fixed")) {
+            Component formattedMOTD = motdPaper.getMessage("fixed-motd");
             event.motd(formattedMOTD);
         }
 
-        if (motd.config.getString("type").equalsIgnoreCase("random")) {
+        if (motdPaper.config.getString("type").equalsIgnoreCase("random")) {
             int randomNum = ThreadLocalRandom.current()
-                    .nextInt(0, motd.config.getStringList("random-motd").size());
-            Component randomMOTD = motd.miniMessage.deserialize(motd.config.getStringList("random-motd").get(randomNum));
+                    .nextInt(0, motdPaper.config.getStringList("random-motd").size());
+            Component randomMOTD = motdPaper.miniMessage.deserialize(motdPaper.config.getStringList("random-motd").get(randomNum));
             event.motd(randomMOTD);
         }
 
-        if (motd.config.getBoolean("use-custom-icon") && motd.bufferedImage != null) {
+        if (motdPaper.config.getBoolean("use-custom-icon") && motdPaper.bufferedImage != null) {
             CachedServerIcon icon;
             try {
-                icon = Bukkit.loadServerIcon(motd.bufferedImage);
+                icon = Bukkit.loadServerIcon(motdPaper.bufferedImage);
             } catch (Exception exception) {
-                motd.logger.severe("Unable to load server icon!");
+                motdPaper.logger.severe("Unable to load server icon!");
                 exception.printStackTrace();
                 return;
             }

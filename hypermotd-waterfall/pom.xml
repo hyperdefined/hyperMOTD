@@ -75,10 +75,6 @@
                                     <shadedPattern>lol.hyper.hypermotd.updater</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>org.apache.commons.io</pattern>
-                                    <shadedPattern>lol.hyper.hypermotd.commonsio</shadedPattern>
-                                </relocation>
-                                <relocation>
                                     <pattern>net.kyori</pattern>
                                     <shadedPattern>lol.hyper.hypermotd.adventure</shadedPattern>
                                 </relocation>
@@ -110,12 +106,6 @@
             <artifactId>waterfall-api</artifactId>
             <version>1.19-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.11.0</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>net.kyori</groupId>

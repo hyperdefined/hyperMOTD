@@ -23,7 +23,6 @@ import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import org.apache.commons.io.FilenameUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -79,8 +78,7 @@ public class MOTDPaper extends JavaPlugin {
                     bufferedImage = null;
                     return;
                 }
-                if (!(FilenameUtils.getExtension(iconFile.getName()).equalsIgnoreCase("jpg")
-                        || FilenameUtils.getExtension(iconFile.getName()).equalsIgnoreCase("png"))) {
+                if (!checkIcon(iconFile)) {
                     logger.warning("Unsupported file extension for server icon! You must use either JPG or PNG only.");
                     bufferedImage = null;
                     return;
@@ -98,7 +96,7 @@ public class MOTDPaper extends JavaPlugin {
     }
 
     public BukkitAudiences getAdventure() {
-        if(this.adventure == null) {
+        if (this.adventure == null) {
             throw new IllegalStateException("Tried to access Adventure when the plugin was disabled!");
         }
         return this.adventure;
@@ -111,5 +109,13 @@ public class MOTDPaper extends JavaPlugin {
             return Component.text("Invalid path! " + path).color(NamedTextColor.RED);
         }
         return miniMessage.deserialize(message);
+    }
+
+    private boolean checkIcon(File file) {
+        String fileName = file.getName();
+        int dotIndex = fileName.lastIndexOf('.');
+        String extension = dotIndex > 0 ? fileName.substring(dotIndex + 1) : null;
+        if (extension == null) return false;
+        return extension.equalsIgnoreCase("png") || extension.equalsIgnoreCase("jpg");
     }
 }

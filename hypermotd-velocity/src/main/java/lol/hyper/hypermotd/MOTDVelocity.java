@@ -30,7 +30,6 @@ import lol.hyper.hypermotd.events.PingEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 
 import javax.imageio.ImageIO;
@@ -119,8 +118,7 @@ public class MOTDVelocity {
                 bufferedImage = null;
                 return;
             }
-            if (!(FilenameUtils.getExtension(iconFile.getName()).equalsIgnoreCase("jpg")
-                    || FilenameUtils.getExtension(iconFile.getName()).equalsIgnoreCase("png"))) {
+            if (!checkIcon(iconFile)) {
                 logger.warn("Unsupported file extension for server icon! You must use either JPG or PNG only.");
                 bufferedImage = null;
                 return;
@@ -146,5 +144,13 @@ public class MOTDVelocity {
             return Component.text("Invalid path! " + path).color(NamedTextColor.RED);
         }
         return miniMessage.deserialize(message);
+    }
+
+    private boolean checkIcon(File file) {
+        String fileName = file.getName();
+        int dotIndex = fileName.lastIndexOf('.');
+        String extension = dotIndex > 0 ? fileName.substring(dotIndex + 1) : null;
+        if (extension == null) return false;
+        return extension.equalsIgnoreCase("png") || extension.equalsIgnoreCase("jpg");
     }
 }

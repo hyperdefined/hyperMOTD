@@ -32,32 +32,32 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class PingEvent implements Listener {
 
-    private final MOTDWaterfall motd;
+    private final MOTDWaterfall motdWaterfall;
 
-    public PingEvent(MOTDWaterfall motd) {
-        this.motd = motd;
+    public PingEvent(MOTDWaterfall motdWaterfall) {
+        this.motdWaterfall = motdWaterfall;
     }
 
     @EventHandler
     public void onPing(ProxyPingEvent event) {
         ServerPing response = event.getResponse();
 
-        if (motd.config.getString("type").equalsIgnoreCase("fixed")) {
-            Component formattedMOTD = motd.getMessage("fixed-motd");
+        if (motdWaterfall.config.getString("type").equalsIgnoreCase("fixed")) {
+            Component formattedMOTD = motdWaterfall.getMessage("fixed-motd");
             BaseComponent finalMOTD = new TextComponent(BungeeComponentSerializer.get().serialize(formattedMOTD));
             response.setDescriptionComponent(finalMOTD);
         }
 
-        if (motd.config.getString("type").equalsIgnoreCase("random")) {
+        if (motdWaterfall.config.getString("type").equalsIgnoreCase("random")) {
             int randomNum = ThreadLocalRandom.current()
-                    .nextInt(0, motd.config.getStringList("random-motd").size());
-            Component randomMOTD = motd.miniMessage.deserialize(motd.config.getStringList("random-motd").get(randomNum));
+                    .nextInt(0, motdWaterfall.config.getStringList("random-motd").size());
+            Component randomMOTD = motdWaterfall.miniMessage.deserialize(motdWaterfall.config.getStringList("random-motd").get(randomNum));
             BaseComponent finalMOTD = new TextComponent(BungeeComponentSerializer.get().serialize(randomMOTD));
             response.setDescriptionComponent(finalMOTD);
         }
 
-        if (motd.config.getBoolean("use-custom-icon") && motd.bufferedImage != null) {
-            response.setFavicon(Favicon.create(motd.bufferedImage));
+        if (motdWaterfall.config.getBoolean("use-custom-icon") && motdWaterfall.bufferedImage != null) {
+            response.setFavicon(Favicon.create(motdWaterfall.bufferedImage));
         }
     }
 }

@@ -25,20 +25,20 @@ import net.md_5.bungee.api.plugin.Command;
 
 public class CommandReload extends Command {
 
-    private final MOTDWaterfall motd;
+    private final MOTDWaterfall motdWaterfall;
 
-    public CommandReload(String name, MOTDWaterfall motd) {
+    public CommandReload(String name, MOTDWaterfall motdWaterfall) {
         super(name);
-        this.motd = motd;
+        this.motdWaterfall = motdWaterfall;
     }
 
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (sender.hasPermission("hypermotd.reload")) {
-            motd.loadConfig(motd.configFile);
-            motd.getAdventure().sender(sender).sendMessage(Component.text("Config reloaded!").color(NamedTextColor.GREEN));
+            motdWaterfall.loadConfig(motdWaterfall.configFile);
+            motdWaterfall.getAdventure().sender(sender).sendMessage(Component.text("Config reloaded!").color(NamedTextColor.GREEN));
         } else {
-            motd.getAdventure().sender(sender).sendMessage(Component.text("You do not have permission for this command.").color(NamedTextColor.RED));
+            motdWaterfall.getAdventure().sender(sender).sendMessage(Component.text("You do not have permission for this command.").color(NamedTextColor.RED));
         }
     }
 }
