@@ -3,6 +3,6 @@ main: lol.hyper.hypermotd.MOTDPaper
 version: ${project.version}
 author: hyperdefined
 commands:
-  motdreload:
+  hypermotd:
     usage: /hypermotd
     description: Reload the config.
