@@ -19,71 +19,50 @@ package lol.hyper.hypermotd;
 
 import lol.hyper.hypermotd.commands.CommandReload;
 import lol.hyper.hypermotd.events.PingEvent;
-import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.plugin.Plugin;
-import net.md_5.bungee.config.Configuration;
-import net.md_5.bungee.config.ConfigurationProvider;
-import net.md_5.bungee.config.YamlConfiguration;
 import org.apache.commons.io.FilenameUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
 import java.util.logging.Logger;
 
-public final class MOTDBungee extends Plugin {
+public class MOTDPaper extends JavaPlugin {
 
-    public final File configFile = new File("plugins" + File.separator + "hyperMOTD", "config.yml");
-    public Configuration config;
+    public final File configFile = new File(getDataFolder(), "config.yml");
+    public FileConfiguration config;
     public BufferedImage bufferedImage;
     public final Logger logger = this.getLogger();
     public PingEvent pingEvent;
-    public CommandReload commandReload;
     public final MiniMessage miniMessage = MiniMessage.miniMessage();
-    private BungeeAudiences adventure;
+    private BukkitAudiences adventure;
 
     @Override
     public void onEnable() {
-        adventure = BungeeAudiences.create(this);
+        this.adventure = BukkitAudiences.create(this);
         pingEvent = new PingEvent(this);
-        commandReload = new CommandReload("motdreload", this);
+
         if (!configFile.exists()) {
-            InputStream is = getResourceAsStream("config.yml");
-            File serverIcon = new File("server-icon.png");
-            try {
-                File path = new File("plugins" + File.separator + "hyperMOTD");
-                if (path.mkdir()) {
-                    Files.copy(is, configFile.toPath());
-                    logger.info("Copying default config...");
-                    if (serverIcon.exists()) {
-                        Files.copy(
-                                serverIcon.toPath(),
-                                new File("plugins" + File.separator + "hyperMOTD", "server-icon").toPath());
-                        logger.info("Moving current server icon...");
-                    }
-                } else {
-                    logger.warning("Unable to create config folder!");
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            this.saveResource("config.yml", true);
+            logger.info("Copying default config...");
         }
         loadConfig(configFile);
-        ProxyServer.getInstance().getPluginManager().registerListener(this, pingEvent);
-        getProxy().getPluginManager().registerCommand(this, commandReload);
+
+        this.getCommand("hypermotd").setExecutor(new CommandReload(this));
+        Bukkit.getServer().getPluginManager().registerEvents(pingEvent, this);
     }
 
     public void loadConfig(File file) {
         try {
-            config =
-                    ConfigurationProvider.getProvider(YamlConfiguration.class).load(file);
+            config = YamlConfiguration.loadConfiguration(file);
             if (config.getBoolean("use-custom-icon")) {
                 String iconName = config.getString("custom-icon-filename");
                 if (iconName == null || iconName.isEmpty()) {
@@ -115,8 +94,14 @@ public final class MOTDBungee extends Plugin {
         } catch (IOException exception) {
             exception.printStackTrace();
             logger.severe("Unable to load configuration file!");
-            bufferedImage = null;
         }
+    }
+
+    public BukkitAudiences getAdventure() {
+        if(this.adventure == null) {
+            throw new IllegalStateException("Tried to access Adventure when the plugin was disabled!");
+        }
+        return this.adventure;
     }
 
     public Component getMessage(String path) {
@@ -126,12 +111,5 @@ public final class MOTDBungee extends Plugin {
             return Component.text("Invalid path! " + path).color(NamedTextColor.RED);
         }
         return miniMessage.deserialize(message);
-    }
-
-    public BungeeAudiences getAdventure() {
-        if (this.adventure == null) {
-            throw new IllegalStateException("Tried to access Adventure when the plugin was disabled!");
-        }
-        return this.adventure;
     }
 }

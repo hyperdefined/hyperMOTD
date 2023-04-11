@@ -18,7 +18,7 @@
 package lol.hyper.hypermotd.events;
 
 import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
-import lol.hyper.hypermotd.MOTDBukkit;
+import lol.hyper.hypermotd.MOTDPaper;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -29,9 +29,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class PingEvent implements Listener {
 
-    private final MOTDBukkit motd;
+    private final MOTDPaper motd;
 
-    public PingEvent(MOTDBukkit motd) {
+    public PingEvent(MOTDPaper motd) {
         this.motd = motd;
     }
 

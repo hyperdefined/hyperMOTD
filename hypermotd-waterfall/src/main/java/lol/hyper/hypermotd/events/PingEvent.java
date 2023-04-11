@@ -17,7 +17,7 @@
 
 package lol.hyper.hypermotd.events;
 
-import lol.hyper.hypermotd.MOTDBungee;
+import lol.hyper.hypermotd.MOTDWaterfall;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import net.md_5.bungee.api.Favicon;
@@ -32,9 +32,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class PingEvent implements Listener {
 
-    private final MOTDBungee motd;
+    private final MOTDWaterfall motd;
 
-    public PingEvent(MOTDBungee motd) {
+    public PingEvent(MOTDWaterfall motd) {
         this.motd = motd;
     }
 

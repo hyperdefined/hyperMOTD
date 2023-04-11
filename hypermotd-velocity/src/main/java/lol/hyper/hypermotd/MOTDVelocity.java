@@ -70,7 +70,7 @@ public class MOTDVelocity {
         loadConfig(configFile);
         server.getEventManager().register(this, pingEvent);
 
-        CommandMeta meta = commandManager.metaBuilder("motdreload").build();
+        CommandMeta meta = commandManager.metaBuilder("hypermotd").build();
         commandManager.register(meta, commandReload);
     }
 

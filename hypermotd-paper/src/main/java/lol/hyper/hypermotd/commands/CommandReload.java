@@ -17,7 +17,7 @@
 
 package lol.hyper.hypermotd.commands;
 
-import lol.hyper.hypermotd.MOTDBukkit;
+import lol.hyper.hypermotd.MOTDPaper;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.command.Command;
@@ -27,9 +27,9 @@ import org.jetbrains.annotations.NotNull;
 
 public class CommandReload implements CommandExecutor {
 
-    private final MOTDBukkit motd;
+    private final MOTDPaper motd;
 
-    public CommandReload(MOTDBukkit motd) {
+    public CommandReload(MOTDPaper motd) {
         this.motd = motd;
     }
 

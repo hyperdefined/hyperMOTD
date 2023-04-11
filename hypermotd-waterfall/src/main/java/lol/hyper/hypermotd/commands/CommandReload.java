@@ -17,7 +17,7 @@
 
 package lol.hyper.hypermotd.commands;
 
-import lol.hyper.hypermotd.MOTDBungee;
+import lol.hyper.hypermotd.MOTDWaterfall;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.md_5.bungee.api.CommandSender;
@@ -25,9 +25,9 @@ import net.md_5.bungee.api.plugin.Command;
 
 public class CommandReload extends Command {
 
-    private final MOTDBungee motd;
+    private final MOTDWaterfall motd;
 
-    public CommandReload(String name, MOTDBungee motd) {
+    public CommandReload(String name, MOTDWaterfall motd) {
         super(name);
         this.motd = motd;
     }
