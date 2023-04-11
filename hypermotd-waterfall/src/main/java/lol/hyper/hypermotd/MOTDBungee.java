@@ -41,7 +41,6 @@ import java.util.logging.Logger;
 public final class MOTDBungee extends Plugin {
 
     public final File configFile = new File("plugins" + File.separator + "hyperMOTD", "config.yml");
-    public File iconFile;
     public Configuration config;
     public BufferedImage bufferedImage;
     public final Logger logger = this.getLogger();
@@ -89,30 +88,34 @@ public final class MOTDBungee extends Plugin {
                 String iconName = config.getString("custom-icon-filename");
                 if (iconName == null || iconName.isEmpty()) {
                     logger.warning("custom-icon-filename is not set properly!");
-                } else {
-                    iconFile = new File("plugins" + File.separator + "hyperMOTD", iconName);
-                    if (!iconFile.exists()) {
-                        logger.warning(
-                                "Unable to locate custom icon from configuration! Make sure you have the path correct!");
-                        logger.warning("The path is current set to: " + iconFile.getAbsolutePath());
-                        logger.warning("Make sure this path exists!");
-                        bufferedImage = null;
-                    } else if (!(FilenameUtils.getExtension(iconFile.getName()).equalsIgnoreCase("jpg")
-                            || FilenameUtils.getExtension(iconFile.getName()).equalsIgnoreCase("png"))) {
-                        logger.warning("Unsupported file extension for server icon! You must use either JPG or PNG only.");
-                        bufferedImage = null;
-                    } else {
-                        bufferedImage = ImageIO.read(iconFile);
-                        if ((bufferedImage.getWidth() != 64) && bufferedImage.getHeight() != 64) {
-                            logger.warning("Server icon MUST be 64x64 pixels! Please resize the image before using!");
-                            bufferedImage = null;
-                        }
-                    }
+                    bufferedImage = null;
+                    return;
+                }
+                File iconFile = new File("plugins" + File.separator + "hyperMOTD", iconName);
+                if (!iconFile.exists()) {
+                    logger.warning(
+                            "Unable to locate custom icon from configuration! Make sure you have the path correct!");
+                    logger.warning("The path is current set to: " + iconFile.getAbsolutePath());
+                    logger.warning("Make sure this path exists!");
+                    bufferedImage = null;
+                    return;
+                }
+                if (!(FilenameUtils.getExtension(iconFile.getName()).equalsIgnoreCase("jpg")
+                        || FilenameUtils.getExtension(iconFile.getName()).equalsIgnoreCase("png"))) {
+                    logger.warning("Unsupported file extension for server icon! You must use either JPG or PNG only.");
+                    bufferedImage = null;
+                    return;
+                }
+                bufferedImage = ImageIO.read(iconFile);
+                if ((bufferedImage.getWidth() != 64) && bufferedImage.getHeight() != 64) {
+                    logger.warning("Server icon MUST be 64x64 pixels! Please resize the image before using!");
+                    bufferedImage = null;
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException exception) {
+            exception.printStackTrace();
             logger.severe("Unable to load configuration file!");
+            bufferedImage = null;
         }
     }
 
@@ -126,7 +129,7 @@ public final class MOTDBungee extends Plugin {
     }
 
     public BungeeAudiences getAdventure() {
-        if(this.adventure == null) {
+        if (this.adventure == null) {
             throw new IllegalStateException("Tried to access Adventure when the plugin was disabled!");
         }
         return this.adventure;

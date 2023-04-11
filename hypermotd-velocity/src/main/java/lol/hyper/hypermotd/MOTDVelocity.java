@@ -86,44 +86,52 @@ public class MOTDVelocity {
                     } else {
                         this.logger.error("Unable to create config folder!");
                     }
-                } catch (IOException e) {
-                    this.logger.error("Unable to copy default config!", e);
+                } catch (IOException exception) {
+                    this.logger.error("Unable to copy default config!", exception);
                 }
             }
         }
         InputStream inputStream;
         try {
             inputStream = new FileInputStream(file);
-        } catch (FileNotFoundException e) {
-            this.logger.error("Unable to find config!", e);
+        } catch (FileNotFoundException exception) {
+            this.logger.error("Unable to find config!", exception);
             return;
         }
         config = new Toml().read(inputStream);
 
         if (config.getBoolean("use-custom-icon")) {
-            File iconFile = new File("plugins" + File.separator + "hyperMOTD", config.getString("custom-icon-filename"));
+            String iconName = config.getString("custom-icon-filename");
+            if (iconName == null || iconName.isEmpty()) {
+                logger.warn("custom-icon-filename is not set properly!");
+                bufferedImage = null;
+                return;
+            }
+            File iconFile = new File("plugins" + File.separator + "hyperMOTD", iconName);
             if (!iconFile.exists()) {
                 logger.warn(
                         "Unable to locate custom icon from configuration! Make sure you have the path correct!");
                 logger.warn("The path is current set to: " + iconFile.getAbsolutePath());
                 logger.warn("Make sure this path exists!");
                 bufferedImage = null;
-            } else if (!(FilenameUtils.getExtension(iconFile.getName()).equalsIgnoreCase("jpg")
+                return;
+            }
+            if (!(FilenameUtils.getExtension(iconFile.getName()).equalsIgnoreCase("jpg")
                     || FilenameUtils.getExtension(iconFile.getName()).equalsIgnoreCase("png"))) {
                 logger.warn("Unsupported file extension for server icon! You must use either JPG or PNG only.");
                 bufferedImage = null;
-            } else {
-                try {
-                    bufferedImage = ImageIO.read(iconFile);
-                } catch (IOException exception) {
-                    logger.error("Unable to load icon file!", exception);
-                    bufferedImage = null;
-                    return;
-                }
-                if ((bufferedImage.getWidth() != 64) && bufferedImage.getHeight() != 64) {
-                    logger.warn("Server icon MUST be 64x64 pixels! Please resize the image before using!");
-                    bufferedImage = null;
-                }
+                return;
+            }
+            try {
+                bufferedImage = ImageIO.read(iconFile);
+            } catch (IOException exception) {
+                logger.error("Unable to load icon file!", exception);
+                bufferedImage = null;
+                return;
+            }
+            if ((bufferedImage.getWidth() != 64) && bufferedImage.getHeight() != 64) {
+                logger.warn("Server icon MUST be 64x64 pixels! Please resize the image before using!");
+                bufferedImage = null;
             }
         }
     }

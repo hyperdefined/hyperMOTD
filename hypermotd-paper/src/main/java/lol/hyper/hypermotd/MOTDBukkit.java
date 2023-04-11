@@ -33,7 +33,6 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.logging.Logger;
 
 public class MOTDBukkit extends JavaPlugin {
@@ -41,7 +40,6 @@ public class MOTDBukkit extends JavaPlugin {
     public final File configFile = new File(getDataFolder(), "config.yml");
     public FileConfiguration config;
     public BufferedImage bufferedImage;
-    public File iconFile;
     public final Logger logger = this.getLogger();
     public PingEvent pingEvent;
     public final MiniMessage miniMessage = MiniMessage.miniMessage();
@@ -69,29 +67,32 @@ public class MOTDBukkit extends JavaPlugin {
                 String iconName = config.getString("custom-icon-filename");
                 if (iconName == null || iconName.isEmpty()) {
                     logger.warning("custom-icon-filename is not set properly!");
-                } else {
-                    iconFile = new File("plugins" + File.separator + "hyperMOTD", iconName);
-                    if (!iconFile.exists()) {
-                        logger.warning(
-                                "Unable to locate custom icon from configuration! Make sure you have the path correct!");
-                        logger.warning("The path is current set to: " + iconFile.getAbsolutePath());
-                        logger.warning("Make sure this path exists!");
-                        bufferedImage = null;
-                    } else if (!(FilenameUtils.getExtension(iconFile.getName()).equalsIgnoreCase("jpg")
-                            || FilenameUtils.getExtension(iconFile.getName()).equalsIgnoreCase("png"))) {
-                        logger.warning("Unsupported file extension for server icon! You must use either JPG or PNG only.");
-                        bufferedImage = null;
-                    } else {
-                        bufferedImage = ImageIO.read(iconFile);
-                        if ((bufferedImage.getWidth() != 64) && bufferedImage.getHeight() != 64) {
-                            logger.warning("Server icon MUST be 64x64 pixels! Please resize the image before using!");
-                            bufferedImage = null;
-                        }
-                    }
+                    bufferedImage = null;
+                    return;
+                }
+                File iconFile = new File("plugins" + File.separator + "hyperMOTD", iconName);
+                if (!iconFile.exists()) {
+                    logger.warning(
+                            "Unable to locate custom icon from configuration! Make sure you have the path correct!");
+                    logger.warning("The path is current set to: " + iconFile.getAbsolutePath());
+                    logger.warning("Make sure this path exists!");
+                    bufferedImage = null;
+                    return;
+                }
+                if (!(FilenameUtils.getExtension(iconFile.getName()).equalsIgnoreCase("jpg")
+                        || FilenameUtils.getExtension(iconFile.getName()).equalsIgnoreCase("png"))) {
+                    logger.warning("Unsupported file extension for server icon! You must use either JPG or PNG only.");
+                    bufferedImage = null;
+                    return;
+                }
+                bufferedImage = ImageIO.read(iconFile);
+                if ((bufferedImage.getWidth() != 64) && bufferedImage.getHeight() != 64) {
+                    logger.warning("Server icon MUST be 64x64 pixels! Please resize the image before using!");
+                    bufferedImage = null;
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException exception) {
+            exception.printStackTrace();
             logger.severe("Unable to load configuration file!");
         }
     }

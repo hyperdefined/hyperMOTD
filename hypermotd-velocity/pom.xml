@@ -76,10 +76,6 @@
                         <configuration>
                             <relocations>
                                 <relocation>
-                                    <pattern>org.bstats</pattern>
-                                    <shadedPattern>lol.hyper.velocityblockversion.bstats</shadedPattern>
-                                </relocation>
-                                <relocation>
                                     <pattern>lol.hyper.githubreleaseapi</pattern>
                                     <shadedPattern>lol.hyper.hypermotd.updater</shadedPattern>
                                 </relocation>

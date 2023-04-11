@@ -17,12 +17,12 @@
 
 package lol.hyper.hypermotd.events;
 
+import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
 import lol.hyper.hypermotd.MOTDBukkit;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.util.CachedServerIcon;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -36,7 +36,7 @@ public class PingEvent implements Listener {
     }
 
     @EventHandler
-    public void onPing(ServerListPingEvent event) {
+    public void onPing(PaperServerListPingEvent event) {
         if (motd.config.getString("type").equalsIgnoreCase("fixed")) {
             Component formattedMOTD = motd.getMessage("fixed-motd");
             event.motd(formattedMOTD);
