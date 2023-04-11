@@ -78,6 +78,10 @@
                                     <pattern>org.apache.commons.io</pattern>
                                     <shadedPattern>lol.hyper.hypermotd.commonsio</shadedPattern>
                                 </relocation>
+                                <relocation>
+                                    <pattern>net.kyori</pattern>
+                                    <shadedPattern>lol.hyper.hypermotd.adventure</shadedPattern>
+                                </relocation>
                             </relocations>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                         </configuration>
