@@ -17,7 +17,6 @@
 
 package lol.hyper.hypermotd.commands;
 
-import com.google.inject.Inject;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import lol.hyper.hypermotd.MOTDVelocity;
@@ -26,13 +25,16 @@ import net.kyori.adventure.text.format.NamedTextColor;
 
 public class CommandReload implements SimpleCommand {
 
-    @Inject
-    private MOTDVelocity motd;
+    private final MOTDVelocity motdVelocity;
+
+    public CommandReload(MOTDVelocity motdVelocity) {
+        this.motdVelocity = motdVelocity;
+    }
 
     @Override
     public void execute(Invocation invocation) {
         final CommandSource source = invocation.source();
-        motd.loadConfig(motd.configFile);
+        motdVelocity.loadConfig(motdVelocity.configFile);
         source.sendMessage(Component.text("Config reloaded!").color(NamedTextColor.GREEN));
     }
 

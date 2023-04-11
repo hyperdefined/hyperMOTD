@@ -49,13 +49,9 @@ import java.nio.file.Files;
 public class MOTDVelocity {
 
     public static final String VERSION = "1.0";
-
-    @Inject
-    private Logger logger;
-    @Inject
-    private ProxyServer server;
-    @Inject
-    private CommandManager commandManager;
+    public final Logger logger;
+    private final ProxyServer server;
+    private final CommandManager commandManager;
     public MiniMessage miniMessage = MiniMessage.miniMessage();
     public Toml config;
     public BufferedImage bufferedImage;
@@ -63,10 +59,17 @@ public class MOTDVelocity {
     public CommandReload commandReload;
     public final File configFile = new File("plugins" + File.separator + "hyperMOTD", "config.toml");
 
+    @Inject
+    public MOTDVelocity(ProxyServer server, Logger logger, CommandManager commandManager) {
+        this.server = server;
+        this.logger = logger;
+        this.commandManager = commandManager;
+    }
+
     @Subscribe
     public void onProxyInitialization(ProxyInitializeEvent event) {
-        commandReload = new CommandReload();
-        pingEvent = new PingEvent();
+        commandReload = new CommandReload(this);
+        pingEvent = new PingEvent(this);
         loadConfig(configFile);
         server.getEventManager().register(this, pingEvent);
 

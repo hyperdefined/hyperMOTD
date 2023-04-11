@@ -17,7 +17,6 @@
 
 package lol.hyper.hypermotd.events;
 
-import com.google.inject.Inject;
 import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyPingEvent;
@@ -30,8 +29,11 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class PingEvent {
 
-    @Inject
-    private MOTDVelocity motd;
+    private final MOTDVelocity motdVelocity;
+
+    public PingEvent(MOTDVelocity motdVelocity) {
+        this.motdVelocity = motdVelocity;
+    }
 
     @Subscribe(order = PostOrder.FIRST)
     public void onPlayerLogin(ProxyPingEvent event) {
@@ -41,19 +43,19 @@ public class PingEvent {
         if (builder.getFavicon().isPresent()) {
             currentIcon = builder.getFavicon().get();
         }
-        if (motd.config.getString("type").equalsIgnoreCase("fixed")) {
-            Component finalMOTD = motd.getMessage("fixed-motd");
+        if (motdVelocity.config.getString("type").equalsIgnoreCase("fixed")) {
+            Component finalMOTD = motdVelocity.getMessage("fixed-motd");
             builder.description(finalMOTD);
         }
 
-        if (motd.config.getString("type").equalsIgnoreCase("random")) {
-            int randomNum = ThreadLocalRandom.current().nextInt(0, motd.config.getList("random-motd").size());
-            Component finalMOTD = motd.miniMessage.deserialize(String.valueOf(motd.config.getList("random-motd").get(randomNum)));
+        if (motdVelocity.config.getString("type").equalsIgnoreCase("random")) {
+            int randomNum = ThreadLocalRandom.current().nextInt(0, motdVelocity.config.getList("random-motd").size());
+            Component finalMOTD = motdVelocity.miniMessage.deserialize(String.valueOf(motdVelocity.config.getList("random-motd").get(randomNum)));
             builder.description(finalMOTD);
         }
 
-        if (motd.config.getBoolean("use-custom-icon") && motd.bufferedImage != null) {
-            builder.favicon(Favicon.create(motd.bufferedImage));
+        if (motdVelocity.config.getBoolean("use-custom-icon") && motdVelocity.bufferedImage != null) {
+            builder.favicon(Favicon.create(motdVelocity.bufferedImage));
         }
         if (currentIcon != null) {
             builder.favicon(currentIcon);
