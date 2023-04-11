@@ -27,13 +27,13 @@
     <packaging>pom</packaging>
 
     <properties>
-        <java.version>17</java.version>
+        <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <modules>
-        <module>bukkit</module>
-        <module>bungee</module>
-        <module>velocity</module>
+        <module>hypermotd-paper</module>
+        <module>hypermotd-waterfall</module>
+        <module>hypermotd-velocity</module>
     </modules>
 </project>

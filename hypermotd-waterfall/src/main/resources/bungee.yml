@@ -1,0 +1,4 @@
+name: hyperMOTD
+version: ${project.version}
+main: lol.hyper.hypermotd.MOTDBungee
+author: hyperdefined
