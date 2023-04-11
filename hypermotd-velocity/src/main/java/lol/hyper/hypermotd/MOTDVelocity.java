@@ -25,6 +25,8 @@ import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.proxy.ProxyServer;
+import lol.hyper.githubreleaseapi.GitHubRelease;
+import lol.hyper.githubreleaseapi.GitHubReleaseAPI;
 import lol.hyper.hypermotd.commands.CommandReload;
 import lol.hyper.hypermotd.events.PingEvent;
 import net.kyori.adventure.text.Component;
@@ -74,6 +76,8 @@ public class MOTDVelocity {
 
         CommandMeta meta = commandManager.metaBuilder("hypermotd").build();
         commandManager.register(meta, commandReload);
+
+        server.getScheduler().buildTask(this, this::checkForUpdates).schedule();
     }
 
     public void loadConfig(File file) {
@@ -134,6 +138,29 @@ public class MOTDVelocity {
                 logger.warn("Server icon MUST be 64x64 pixels! Please resize the image before using!");
                 bufferedImage = null;
             }
+        }
+    }
+
+    public void checkForUpdates() {
+        GitHubReleaseAPI api;
+        try {
+            api = new GitHubReleaseAPI("hyperMOTD", "hyperdefined");
+        } catch (IOException e) {
+            logger.warn("Unable to check updates!");
+            e.printStackTrace();
+            return;
+        }
+        GitHubRelease current = api.getReleaseByTag(VERSION);
+        GitHubRelease latest = api.getLatestVersion();
+        if (current == null) {
+            logger.warn("You are running a version that does not exist on GitHub. If you are in a dev environment, you can ignore this. Otherwise, this is a bug!");
+            return;
+        }
+        int buildsBehind = api.getBuildsBehind(current);
+        if (buildsBehind == 0) {
+            logger.info("You are running the latest version.");
+        } else {
+            logger.warn("A new version is available (" + latest.getTagVersion() + ")! You are running version " + current.getTagVersion() + ". You are " + buildsBehind + " version(s) behind.");
         }
     }
 

@@ -119,5 +119,11 @@
             <version>4.3.0</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>lol.hyper</groupId>
+            <artifactId>github-release-api</artifactId>
+            <version>1.0.4</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 </project>

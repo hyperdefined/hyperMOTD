@@ -17,6 +17,8 @@
 
 package lol.hyper.hypermotd;
 
+import lol.hyper.githubreleaseapi.GitHubRelease;
+import lol.hyper.githubreleaseapi.GitHubReleaseAPI;
 import lol.hyper.hypermotd.commands.CommandReload;
 import lol.hyper.hypermotd.events.PingEvent;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
@@ -57,6 +59,8 @@ public class MOTDPaper extends JavaPlugin {
 
         this.getCommand("hypermotd").setExecutor(new CommandReload(this));
         Bukkit.getServer().getPluginManager().registerEvents(pingEvent, this);
+
+        Bukkit.getScheduler().runTaskAsynchronously(this, this::checkForUpdates);
     }
 
     public void loadConfig(File file) {
@@ -92,6 +96,29 @@ public class MOTDPaper extends JavaPlugin {
         } catch (IOException exception) {
             exception.printStackTrace();
             logger.severe("Unable to load configuration file!");
+        }
+    }
+
+    public void checkForUpdates() {
+        GitHubReleaseAPI api;
+        try {
+            api = new GitHubReleaseAPI("hyperMOTD", "hyperdefined");
+        } catch (IOException e) {
+            logger.warning("Unable to check updates!");
+            e.printStackTrace();
+            return;
+        }
+        GitHubRelease current = api.getReleaseByTag(this.getDescription().getVersion());
+        GitHubRelease latest = api.getLatestVersion();
+        if (current == null) {
+            logger.warning("You are running a version that does not exist on GitHub. If you are in a dev environment, you can ignore this. Otherwise, this is a bug!");
+            return;
+        }
+        int buildsBehind = api.getBuildsBehind(current);
+        if (buildsBehind == 0) {
+            logger.info("You are running the latest version.");
+        } else {
+            logger.warning("A new version is available (" + latest.getTagVersion() + ")! You are running version " + current.getTagVersion() + ". You are " + buildsBehind + " version(s) behind.");
         }
     }
 
