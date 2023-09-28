@@ -2,6 +2,7 @@ name: hyperMOTD
 main: lol.hyper.hypermotd.MOTDPaper
 version: ${project.version}
 author: hyperdefined
+folia-supported: true
 commands:
   hypermotd:
     usage: /hypermotd

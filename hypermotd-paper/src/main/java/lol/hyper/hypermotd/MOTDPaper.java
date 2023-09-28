@@ -21,7 +21,6 @@ import lol.hyper.githubreleaseapi.GitHubRelease;
 import lol.hyper.githubreleaseapi.GitHubReleaseAPI;
 import lol.hyper.hypermotd.commands.CommandReload;
 import lol.hyper.hypermotd.events.PingEvent;
-import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -44,11 +43,9 @@ public class MOTDPaper extends JavaPlugin {
     public final Logger logger = this.getLogger();
     public PingEvent pingEvent;
     public final MiniMessage miniMessage = MiniMessage.miniMessage();
-    private BukkitAudiences adventure;
 
     @Override
     public void onEnable() {
-        this.adventure = BukkitAudiences.create(this);
         pingEvent = new PingEvent(this);
 
         if (!configFile.exists()) {
@@ -60,7 +57,7 @@ public class MOTDPaper extends JavaPlugin {
         this.getCommand("hypermotd").setExecutor(new CommandReload(this));
         Bukkit.getServer().getPluginManager().registerEvents(pingEvent, this);
 
-        Bukkit.getScheduler().runTaskAsynchronously(this, this::checkForUpdates);
+        Bukkit.getAsyncScheduler().runNow(this, scheduledTask -> checkForUpdates());
     }
 
     public void loadConfig(File file) {
@@ -120,13 +117,6 @@ public class MOTDPaper extends JavaPlugin {
         } else {
             logger.warning("A new version is available (" + latest.getTagVersion() + ")! You are running version " + current.getTagVersion() + ". You are " + buildsBehind + " version(s) behind.");
         }
-    }
-
-    public BukkitAudiences getAdventure() {
-        if (this.adventure == null) {
-            throw new IllegalStateException("Tried to access Adventure when the plugin was disabled!");
-        }
-        return this.adventure;
     }
 
     public Component getMessage(String path) {
