@@ -49,7 +49,7 @@ import java.nio.file.Files;
 )
 public class MOTDVelocity {
 
-    public static final String VERSION = "1.0";
+    public static final String VERSION = "1.0.1";
     public final Logger logger;
     private final ProxyServer server;
     private final CommandManager commandManager;
