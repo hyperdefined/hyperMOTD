@@ -3,6 +3,8 @@ main: lol.hyper.hypermotd.MOTDPaper
 version: ${project.version}
 author: hyperdefined
 folia-supported: true
+api-version: 1.21
+website: https://github.com/hyperdefined/hyperMOTD
 commands:
   hypermotd:
     usage: /hypermotd
