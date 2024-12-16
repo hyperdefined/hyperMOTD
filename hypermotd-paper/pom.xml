@@ -74,6 +74,10 @@
                                     <pattern>lol.hyper.githubreleaseapi</pattern>
                                     <shadedPattern>lol.hyper.hypermotd.updater</shadedPattern>
                                 </relocation>
+                                <relocation>
+                                    <pattern>org.bstats</pattern>
+                                    <shadedPattern>lol.hyper.hypermotd.bstats</shadedPattern>
+                                </relocation>
                             </relocations>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                         </configuration>
