@@ -17,7 +17,6 @@
 
 package lol.hyper.hypermotd.events;
 
-import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyPingEvent;
 import com.velocitypowered.api.proxy.server.ServerPing;
@@ -35,7 +34,7 @@ public class PingEvent {
         this.motdVelocity = motdVelocity;
     }
 
-    @Subscribe(order = PostOrder.FIRST)
+    @Subscribe
     public void onPlayerLogin(ProxyPingEvent event) {
         ServerPing.Builder builder = event.getPing().asBuilder();
         // check for existing icon

@@ -7,3 +7,7 @@ commands:
   hypermotd:
     usage: /hypermotd
     description: Reload the config.
+permissions:
+  hypermotd.reload:
+    description: Allows the usage of /hypermotd.
+    default: op

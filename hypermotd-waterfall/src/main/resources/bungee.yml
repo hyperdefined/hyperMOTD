@@ -1,4 +1,0 @@
-name: hyperMOTD
-version: ${project.version}
-main: lol.hyper.hypermotd.MOTDWaterfall
-author: hyperdefined

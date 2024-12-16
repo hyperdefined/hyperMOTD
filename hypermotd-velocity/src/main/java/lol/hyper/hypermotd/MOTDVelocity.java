@@ -32,6 +32,7 @@ import lol.hyper.hypermotd.events.PingEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bstats.velocity.Metrics;
 import org.slf4j.Logger;
 
 import javax.imageio.ImageIO;
@@ -41,15 +42,15 @@ import java.nio.file.Files;
 
 @Plugin(
         id = "hypermotd",
-        name = "hyperMOD",
-        version = "1.0",
+        name = "hyperMOTD",
+        version = "1.0.2",
         authors = {"hyperdefined"},
         description = "Super simple MOTD system.",
         url = "https://github.com/hyperdefined/hyperMOTD"
 )
 public class MOTDVelocity {
 
-    public static final String VERSION = "1.0.1";
+    public static final String VERSION = "1.0.2";
     public final Logger logger;
     private final ProxyServer server;
     private final CommandManager commandManager;
@@ -59,12 +60,14 @@ public class MOTDVelocity {
     public PingEvent pingEvent;
     public CommandReload commandReload;
     public final File configFile = new File("plugins" + File.separator + "hyperMOTD", "config.toml");
+    private final Metrics.Factory metricsFactory;
 
     @Inject
-    public MOTDVelocity(ProxyServer server, Logger logger, CommandManager commandManager) {
+    public MOTDVelocity(ProxyServer server, Logger logger, CommandManager commandManager, Metrics.Factory metricsFactory) {
         this.server = server;
         this.logger = logger;
         this.commandManager = commandManager;
+        this.metricsFactory = metricsFactory;
     }
 
     @Subscribe
@@ -78,6 +81,8 @@ public class MOTDVelocity {
         commandManager.register(meta, commandReload);
 
         server.getScheduler().buildTask(this, this::checkForUpdates).schedule();
+
+        metricsFactory.make(this, 24159);
     }
 
     public void loadConfig(File file) {

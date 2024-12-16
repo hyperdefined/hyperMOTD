@@ -24,6 +24,7 @@ import lol.hyper.hypermotd.events.PingEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -42,7 +43,6 @@ public class MOTDPaper extends JavaPlugin {
     public BufferedImage bufferedImage;
     public final Logger logger = this.getLogger();
     public PingEvent pingEvent;
-    public final MiniMessage miniMessage = MiniMessage.miniMessage();
 
     @Override
     public void onEnable() {
@@ -58,6 +58,8 @@ public class MOTDPaper extends JavaPlugin {
         Bukkit.getServer().getPluginManager().registerEvents(pingEvent, this);
 
         Bukkit.getAsyncScheduler().runNow(this, scheduledTask -> checkForUpdates());
+
+        new Metrics(this, 24158);
     }
 
     public void loadConfig(File file) {
@@ -105,7 +107,7 @@ public class MOTDPaper extends JavaPlugin {
             e.printStackTrace();
             return;
         }
-        GitHubRelease current = api.getReleaseByTag(this.getDescription().getVersion());
+        GitHubRelease current = api.getReleaseByTag(this.getPluginMeta().getVersion());
         GitHubRelease latest = api.getLatestVersion();
         if (current == null) {
             logger.warning("You are running a version that does not exist on GitHub. If you are in a dev environment, you can ignore this. Otherwise, this is a bug!");
@@ -125,7 +127,7 @@ public class MOTDPaper extends JavaPlugin {
             logger.warning(path + " is not a valid message!");
             return Component.text("Invalid path! " + path).color(NamedTextColor.RED);
         }
-        return miniMessage.deserialize(message);
+        return MiniMessage.miniMessage().deserialize(message);
     }
 
     private boolean checkIcon(File file) {

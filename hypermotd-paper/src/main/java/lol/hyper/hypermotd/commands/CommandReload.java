@@ -37,9 +37,9 @@ public class CommandReload implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (commandSender.hasPermission("hypermotd.reload")) {
             motdPaper.loadConfig(motdPaper.configFile);
-            commandSender.sendMessage(Component.text("Config reloaded!").color(NamedTextColor.GREEN));
+            commandSender.sendMessage(Component.text("Config reloaded!", NamedTextColor.GREEN));
         } else {
-            commandSender.sendMessage(Component.text("You do not have permission for this command.").color(NamedTextColor.RED));
+            commandSender.sendMessage(Component.text("You do not have permission for this command.", NamedTextColor.RED));
         }
         return true;
     }
