@@ -7,7 +7,7 @@
 	<a href="https://papermc.io"><img alt="velocity" height="40" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact/supported/velocity_vector.svg"></a>
 	<a href="https://github.com/hyperdefined/hyperMOTD/wiki"><img alt="ghpages" height="40" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact/documentation/ghpages_vector.svg"></a>
 	<a href="https://discord.gg/rJuQXVcJz8"><img alt="discord-singular" height="40" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact/social/discord-singular_vector.svg"></a>
-	<a href="https://ko-fi.com/hyperdefined"><img alt="kofi-singular" height="40" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact/donate/kofi-singular_vector.svg"></a>
+	<a href="https://buymeacoffee.com/hyperdefined"><img alt="buymeacoffee-singular" height="40" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact/donate/buymeacoffee-singular_vector.svg"></a>
 </p>
 
 Super simple custom MOTD system that allows for very basic random and fixed MOTDs. Supports Paper & Velocity.
