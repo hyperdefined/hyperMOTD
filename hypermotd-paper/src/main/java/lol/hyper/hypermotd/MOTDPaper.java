@@ -23,8 +23,6 @@ import lol.hyper.hyperlib.releases.HyperUpdater;
 import lol.hyper.hyperlib.utils.TextUtils;
 import lol.hyper.hypermotd.commands.CommandReload;
 import lol.hyper.hypermotd.events.PingEvent;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -106,15 +104,6 @@ public class MOTDPaper extends JavaPlugin {
         } catch (IOException exception) {
             logger.error("Unable to load configuration file!", exception);
         }
-    }
-
-    public Component getMessage(String path) {
-        String message = config.getString(path);
-        if (message == null) {
-            logger.warn("{} is not a valid message!", path);
-            return Component.text("Invalid path! " + path).color(NamedTextColor.RED);
-        }
-        return textUtils.format(message);
     }
 
     private boolean checkIcon(File file) {

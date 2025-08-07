@@ -54,7 +54,7 @@ public class MOTDVelocity {
     public final Logger logger;
     private final ProxyServer server;
     private final CommandManager commandManager;
-    public MiniMessage miniMessage = MiniMessage.miniMessage();
+    public final MiniMessage miniMessage = MiniMessage.miniMessage();
     public Toml config;
     public BufferedImage bufferedImage;
     public PingEvent pingEvent;
