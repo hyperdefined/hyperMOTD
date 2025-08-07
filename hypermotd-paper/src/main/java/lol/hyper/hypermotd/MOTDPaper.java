@@ -17,14 +17,15 @@
 
 package lol.hyper.hypermotd;
 
-import lol.hyper.githubreleaseapi.GitHubRelease;
-import lol.hyper.githubreleaseapi.GitHubReleaseAPI;
+import lol.hyper.hyperlib.HyperLib;
+import lol.hyper.hyperlib.bstats.HyperStats;
+import lol.hyper.hyperlib.releases.HyperUpdater;
+import lol.hyper.hyperlib.utils.TextUtils;
 import lol.hyper.hypermotd.commands.CommandReload;
 import lol.hyper.hypermotd.events.PingEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.minimessage.MiniMessage;
-import org.bstats.bukkit.Metrics;
+import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -34,18 +35,26 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Logger;
 
 public class MOTDPaper extends JavaPlugin {
 
     public final File configFile = new File(getDataFolder(), "config.yml");
     public FileConfiguration config;
     public BufferedImage bufferedImage;
-    public final Logger logger = this.getLogger();
+    public final ComponentLogger logger = this.getComponentLogger();
     public PingEvent pingEvent;
+    public TextUtils textUtils;
 
     @Override
     public void onEnable() {
+        HyperLib hyperLib = new HyperLib(this);
+        hyperLib.setup();
+
+        HyperStats stats = new HyperStats(hyperLib, 24158);
+        stats.setup();
+
+        textUtils = new TextUtils(hyperLib);
+
         pingEvent = new PingEvent(this);
 
         if (!configFile.exists()) {
@@ -57,9 +66,11 @@ public class MOTDPaper extends JavaPlugin {
         this.getCommand("hypermotd").setExecutor(new CommandReload(this));
         Bukkit.getServer().getPluginManager().registerEvents(pingEvent, this);
 
-        Bukkit.getAsyncScheduler().runNow(this, scheduledTask -> checkForUpdates());
-
-        new Metrics(this, 24158);
+        HyperUpdater updater = new HyperUpdater(hyperLib);
+        updater.setGitHub("hyperdefined", "hyperMOTD");
+        updater.setModrinth("DjGkTuWc");
+        updater.setHangar("hyperMOTD", "paper");
+        updater.check();
     }
 
     public void loadConfig(File file) {
@@ -68,66 +79,42 @@ public class MOTDPaper extends JavaPlugin {
             if (config.getBoolean("use-custom-icon")) {
                 String iconName = config.getString("custom-icon-filename");
                 if (iconName == null || iconName.isEmpty()) {
-                    logger.warning("custom-icon-filename is not set properly!");
+                    logger.warn("custom-icon-filename is not set properly!");
                     bufferedImage = null;
                     return;
                 }
                 File iconFile = new File("plugins" + File.separator + "hyperMOTD", iconName);
                 if (!iconFile.exists()) {
-                    logger.warning(
+                    logger.warn(
                             "Unable to locate custom icon from configuration! Make sure you have the path correct!");
-                    logger.warning("The path is current set to: " + iconFile.getAbsolutePath());
-                    logger.warning("Make sure this path exists!");
+                    logger.warn("The path is current set to: {}", iconFile.getAbsolutePath());
+                    logger.warn("Make sure this path exists!");
                     bufferedImage = null;
                     return;
                 }
                 if (!checkIcon(iconFile)) {
-                    logger.warning("Unsupported file extension for server icon! You must use either JPG or PNG only.");
+                    logger.warn("Unsupported file extension for server icon! You must use either JPG or PNG only.");
                     bufferedImage = null;
                     return;
                 }
                 bufferedImage = ImageIO.read(iconFile);
                 if ((bufferedImage.getWidth() != 64) && bufferedImage.getHeight() != 64) {
-                    logger.warning("Server icon MUST be 64x64 pixels! Please resize the image before using!");
+                    logger.warn("Server icon MUST be 64x64 pixels! Please resize the image before using!");
                     bufferedImage = null;
                 }
             }
         } catch (IOException exception) {
-            exception.printStackTrace();
-            logger.severe("Unable to load configuration file!");
-        }
-    }
-
-    public void checkForUpdates() {
-        GitHubReleaseAPI api;
-        try {
-            api = new GitHubReleaseAPI("hyperMOTD", "hyperdefined");
-        } catch (IOException e) {
-            logger.warning("Unable to check updates!");
-            e.printStackTrace();
-            return;
-        }
-        GitHubRelease current = api.getReleaseByTag(this.getPluginMeta().getVersion());
-        GitHubRelease latest = api.getLatestVersion();
-        if (current == null) {
-            logger.warning("You are running a version that does not exist on GitHub. If you are in a dev environment, you can ignore this. Otherwise, this is a bug!");
-            return;
-        }
-        int buildsBehind = api.getBuildsBehind(current);
-        if (buildsBehind == 0) {
-            logger.info("You are running the latest version.");
-        } else {
-            logger.warning("A new version is available (" + latest.getTagVersion() + ")! You are running version " + current.getTagVersion() + ". You are " + buildsBehind + " version(s) behind.");
+            logger.error("Unable to load configuration file!", exception);
         }
     }
 
     public Component getMessage(String path) {
         String message = config.getString(path);
         if (message == null) {
-            logger.warning(path + " is not a valid message!");
+            logger.warn("{} is not a valid message!", path);
             return Component.text("Invalid path! " + path).color(NamedTextColor.RED);
         }
-        return MiniMessage.miniMessage().deserialize(message);
+        return textUtils.format(message);
     }
 
     private boolean checkIcon(File file) {

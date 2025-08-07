@@ -20,7 +20,6 @@ package lol.hyper.hypermotd.events;
 import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
 import lol.hyper.hypermotd.MOTDPaper;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -39,14 +38,13 @@ public class PingEvent implements Listener {
     @EventHandler
     public void onPing(PaperServerListPingEvent event) {
         if (motdPaper.config.getString("type").equalsIgnoreCase("fixed")) {
-            Component formattedMOTD = motdPaper.getMessage("fixed-motd");
+            Component formattedMOTD = motdPaper.textUtils.format(motdPaper.config.getString("fixed-motd"));
             event.motd(formattedMOTD);
         }
 
         if (motdPaper.config.getString("type").equalsIgnoreCase("random")) {
-            int randomNum = ThreadLocalRandom.current()
-                    .nextInt(0, motdPaper.config.getStringList("random-motd").size());
-            Component randomMOTD = MiniMessage.miniMessage().deserialize(motdPaper.config.getStringList("random-motd").get(randomNum));
+            int randomNum = ThreadLocalRandom.current().nextInt(0, motdPaper.config.getStringList("random-motd").size());
+            Component randomMOTD = motdPaper.textUtils.format(motdPaper.config.getStringList("random-motd").get(randomNum));
             event.motd(randomMOTD);
         }
 
@@ -55,8 +53,7 @@ public class PingEvent implements Listener {
             try {
                 icon = Bukkit.loadServerIcon(motdPaper.bufferedImage);
             } catch (Exception exception) {
-                motdPaper.logger.severe("Unable to load server icon!");
-                exception.printStackTrace();
+                motdPaper.logger.error("Unable to load server icon!", exception);
                 return;
             }
             event.setServerIcon(icon);
