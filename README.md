@@ -14,7 +14,7 @@
 Super simple custom MOTD system that allows for very basic random and fixed MOTDs. Supports Paper & Velocity.
 
 ## Features
-* Complete support for Minimessage formatting.
+* Complete support for MiniMessage formatting.
 * Change your server's MOTD and server icon without restarting.
 
 ## Documentation
