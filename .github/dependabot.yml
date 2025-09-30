@@ -1,7 +1,13 @@
 version: 2
 updates:
 - package-ecosystem: maven
-  directory: "/"
+  directory: "/hypermotd-velocity"
+  schedule:
+    interval: daily
+    time: "11:00"
+  open-pull-requests-limit: 10
+- package-ecosystem: maven
+  directory: "/hypermotd-paper"
   schedule:
     interval: daily
     time: "11:00"
