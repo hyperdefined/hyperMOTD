@@ -61,7 +61,7 @@ public class MOTDPaper extends JavaPlugin {
         }
         loadConfig(configFile);
 
-        this.getCommand("hypermotd").setExecutor(new CommandReload(this));
+        registerCommand("hypermotd", new CommandReload(this));
         Bukkit.getServer().getPluginManager().registerEvents(pingEvent, this);
 
         HyperUpdater updater = new HyperUpdater(hyperLib);

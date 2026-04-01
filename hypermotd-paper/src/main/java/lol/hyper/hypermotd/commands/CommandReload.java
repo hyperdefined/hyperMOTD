@@ -17,15 +17,15 @@
 
 package lol.hyper.hypermotd.commands;
 
+import io.papermc.paper.command.brigadier.BasicCommand;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
 import lol.hyper.hypermotd.MOTDPaper;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
-public class CommandReload implements CommandExecutor {
+public class CommandReload implements BasicCommand {
 
     private final MOTDPaper motdPaper;
 
@@ -34,13 +34,19 @@ public class CommandReload implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        if (commandSender.hasPermission("hypermotd.reload")) {
-            motdPaper.loadConfig(motdPaper.configFile);
-            commandSender.sendMessage(Component.text("Config reloaded!", NamedTextColor.GREEN));
-        } else {
-            commandSender.sendMessage(Component.text("You do not have permission for this command.", NamedTextColor.RED));
+    public void execute(@NonNull CommandSourceStack source, String @NonNull [] args) {
+        CommandSender sender = source.getSender();
+        if (!sender.hasPermission("hypermotd.reload")) {
+            sender.sendMessage(Component.text("You do not have permission for this command.", NamedTextColor.RED));
+            return;
         }
-        return true;
+
+        motdPaper.loadConfig(motdPaper.configFile);
+        sender.sendMessage(Component.text("Config reloaded!", NamedTextColor.GREEN));
+    }
+
+    @Override
+    public String permission() {
+        return "hypermotd.reload";
     }
 }

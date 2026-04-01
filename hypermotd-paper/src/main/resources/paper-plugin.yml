@@ -5,6 +5,9 @@ author: hyperdefined
 folia-supported: true
 api-version: 1.21
 website: https://github.com/hyperdefined/hyperMOTD
+
+loader: lol.hyper.hypermotd.MOTDPaperLoader
+
 commands:
   hypermotd:
     usage: /hypermotd
