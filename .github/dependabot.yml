@@ -1,12 +1,12 @@
 version: 2
 updates:
-- package-ecosystem: maven
+- package-ecosystem: gradle
   directory: "/hypermotd-velocity"
   schedule:
     interval: daily
     time: "11:00"
   open-pull-requests-limit: 10
-- package-ecosystem: maven
+- package-ecosystem: gradle
   directory: "/hypermotd-paper"
   schedule:
     interval: daily

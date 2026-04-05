@@ -95,7 +95,10 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-target/
+# Gradle
+.gradle/
+build/
+buildSrc/build/
 
 pom.xml.tag
 pom.xml.releaseBackup

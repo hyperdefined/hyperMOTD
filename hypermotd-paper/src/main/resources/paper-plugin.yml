@@ -1,9 +1,9 @@
 name: hyperMOTD
 main: lol.hyper.hypermotd.MOTDPaper
-version: ${project.version}
+version: ${version}
 author: hyperdefined
 folia-supported: true
-api-version: 1.21
+api-version: '26.1.1'
 website: https://github.com/hyperdefined/hyperMOTD
 
 loader: lol.hyper.hypermotd.MOTDPaperLoader
