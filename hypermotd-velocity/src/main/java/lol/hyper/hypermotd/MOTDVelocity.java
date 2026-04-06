@@ -122,7 +122,7 @@ public class MOTDVelocity {
             if (!iconFile.exists()) {
                 logger.warn(
                         "Unable to locate custom icon from configuration! Make sure you have the path correct!");
-                logger.warn("The path is current set to: " + iconFile.getAbsolutePath());
+                logger.warn("The path is current set to: {}", iconFile.getAbsolutePath());
                 logger.warn("Make sure this path exists!");
                 bufferedImage = null;
                 return;
@@ -165,14 +165,14 @@ public class MOTDVelocity {
         if (buildsBehind == 0) {
             logger.info("You are running the latest version.");
         } else {
-            logger.warn("A new version is available (" + latest.getTagVersion() + ")! You are running version " + current.getTagVersion() + ". You are " + buildsBehind + " version(s) behind.");
+            logger.warn("A new version is available ({})! You are running version {}. You are {} version(s) behind.", latest.getTagVersion(), current.getTagVersion(), buildsBehind);
         }
     }
 
     public Component getMessage(String path) {
         String message = config.getString(path);
         if (message == null) {
-            logger.warn(path + " is not a valid message!");
+            logger.warn("{} is not a valid message!", path);
             return Component.text("Invalid path! " + path).color(NamedTextColor.RED);
         }
         return miniMessage.deserialize(message);
