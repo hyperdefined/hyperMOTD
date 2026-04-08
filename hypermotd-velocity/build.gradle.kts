@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("com.velocitypowered:velocity-api:3.5.0-SNAPSHOT")
+    compileOnly("com.velocitypowered:velocity-api:4.0.0-SNAPSHOT")
     implementation("lol.hyper:github-release-api:1.0.5")
     implementation("org.bstats:bstats-velocity:3.2.1")
 }
